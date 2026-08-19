@@ -52,6 +52,15 @@ export interface UserCourse {
   assignedAt: string
 }
 
+export interface StudentOverview {
+  id: string
+  name: string
+  email: string
+  username: string
+  totalCourses: number
+  courses: { id: string; title: string }[]
+}
+
 export interface CourseModule {
   id: string
   courseId: string

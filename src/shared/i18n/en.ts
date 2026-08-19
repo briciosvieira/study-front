@@ -61,6 +61,7 @@ const en: Dictionary = {
   nav: {
     courses: 'Courses',
     users: 'Users',
+    students: 'Students',
     myCourses: 'My courses',
     logout: 'Log out',
     admin: 'Admin',
@@ -214,6 +215,19 @@ const en: Dictionary = {
     searchCoursesPlaceholder: 'Search course…',
     emptyAvailableCourses: 'No courses available to add.',
     coursesOnlyForStudents: 'Only users with the Student role can have courses assigned.',
+  },
+  students: {
+    title: 'Students',
+    subtitle: 'Manage courses assigned to students.',
+    searchPlaceholder: 'Search by name, email, or username…',
+    emptyTitle: 'No students found',
+    columnId: 'ID',
+    columnStudent: 'Student',
+    columnCourses: 'Enrolled courses',
+    viewMore: 'View more',
+    noCourses: 'No courses',
+    moreCoursesTooltip: '{count} more course(s)',
+    backToStudents: 'Back to students',
   },
   userForm: {
     titleNew: 'New user',

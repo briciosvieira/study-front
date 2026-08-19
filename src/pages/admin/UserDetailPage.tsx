@@ -26,7 +26,13 @@ const ROLE_BADGE_VARIANT: Record<Role, 'primary' | 'default' | 'muted'> = {
   STUDENT: 'muted',
 }
 
-export function UserDetailPage() {
+export function UserDetailPage({
+  backTo = '/admin/users',
+  backLabel,
+}: {
+  backTo?: string
+  backLabel?: string
+}) {
   const { t, language } = useTranslation()
   const { userId = '' } = useParams()
   const [availableSearch, setAvailableSearch] = useState('')
@@ -50,11 +56,11 @@ export function UserDetailPage() {
   return (
     <div>
       <Link
-        to="/admin/users"
+        to={backTo}
         className="mb-4 flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft size={14} />
-        {t('userDetail.backToUsers')}
+        {backLabel ?? t('userDetail.backToUsers')}
       </Link>
 
       <PageHeader title={user.name} description={user.email} />

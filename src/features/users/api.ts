@@ -1,5 +1,5 @@
 import { api } from '@/shared/api/axiosClient'
-import type { Role, User, UserCourse } from '@/shared/types/api.types'
+import type { PaginatedResult, Role, StudentOverview, User, UserCourse } from '@/shared/types/api.types'
 
 export interface CreateUserPayload {
   name: string
@@ -11,15 +11,16 @@ export interface CreateUserPayload {
 
 export type UpdateUserPayload = Partial<CreateUserPayload> & { active?: boolean }
 
-export interface StudentSummary {
-  id: string
-  name: string
-  email: string
+export interface StudentsOverviewParams {
+  search?: string
+  page?: number
+  limit?: number
 }
 
 export const usersApi = {
   list: () => api.get<User[]>('/users').then((r) => r.data),
-  listStudents: () => api.get<StudentSummary[]>('/users/students').then((r) => r.data),
+  getStudentsOverview: (params?: StudentsOverviewParams) =>
+    api.get<PaginatedResult<StudentOverview>>('/users/students', { params }).then((r) => r.data),
   get: (id: string) => api.get<User>(`/users/${id}`).then((r) => r.data),
   create: (payload: CreateUserPayload) => api.post<User>('/users', payload).then((r) => r.data),
   update: (id: string, payload: UpdateUserPayload) =>

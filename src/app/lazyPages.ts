@@ -25,6 +25,12 @@ export const UsersPage = lazy(() =>
 export const UserDetailPage = lazy(() =>
   import('@/pages/admin/UserDetailPage').then((m) => ({ default: m.UserDetailPage })),
 )
+export const StudentsPage = lazy(() =>
+  import('@/pages/admin/StudentsPage').then((m) => ({ default: m.StudentsPage })),
+)
+export const StudentDetailPage = lazy(() =>
+  import('@/pages/admin/StudentDetailPage').then((m) => ({ default: m.StudentDetailPage })),
+)
 
 export const InstructorCoursesPage = lazy(() =>
   import('@/pages/instructor/CoursesPage').then((m) => ({ default: m.CoursesPage })),

@@ -61,6 +61,7 @@ const es: Dictionary = {
   nav: {
     courses: 'Cursos',
     users: 'Usuarios',
+    students: 'Estudiantes',
     myCourses: 'Mis cursos',
     logout: 'Cerrar sesión',
     admin: 'Admin',
@@ -214,6 +215,19 @@ const es: Dictionary = {
     searchCoursesPlaceholder: 'Buscar curso…',
     emptyAvailableCourses: 'No hay cursos disponibles para agregar.',
     coursesOnlyForStudents: 'Solo los usuarios con rol de Estudiante pueden tener cursos asignados.',
+  },
+  students: {
+    title: 'Estudiantes',
+    subtitle: 'Gestiona los cursos asignados a los estudiantes.',
+    searchPlaceholder: 'Buscar por nombre, correo o usuario…',
+    emptyTitle: 'No se encontraron estudiantes',
+    columnId: 'ID',
+    columnStudent: 'Estudiante',
+    columnCourses: 'Cursos inscritos',
+    viewMore: 'Ver más',
+    noCourses: 'Sin cursos',
+    moreCoursesTooltip: '{count} curso(s) más',
+    backToStudents: 'Volver a estudiantes',
   },
   userForm: {
     titleNew: 'Nuevo usuario',

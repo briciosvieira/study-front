@@ -59,6 +59,7 @@ const ptBR = {
   nav: {
     courses: 'Cursos',
     users: 'Usuários',
+    students: 'Alunos',
     myCourses: 'Meus cursos',
     logout: 'Sair',
     admin: 'Admin',
@@ -212,6 +213,19 @@ const ptBR = {
     searchCoursesPlaceholder: 'Pesquisar curso…',
     emptyAvailableCourses: 'Nenhum curso disponível para adicionar.',
     coursesOnlyForStudents: 'Apenas usuários com perfil Estudante podem ter cursos vinculados.',
+  },
+  students: {
+    title: 'Alunos',
+    subtitle: 'Gerencie os cursos atribuídos aos alunos.',
+    searchPlaceholder: 'Pesquisar por nome, e-mail ou usuário…',
+    emptyTitle: 'Nenhum aluno encontrado',
+    columnId: 'ID',
+    columnStudent: 'Aluno',
+    columnCourses: 'Cursos cadastrados',
+    viewMore: 'Ver mais',
+    noCourses: 'Nenhum curso',
+    moreCoursesTooltip: '{count} curso(s) a mais',
+    backToStudents: 'Voltar para alunos',
   },
   userForm: {
     titleNew: 'Novo usuário',

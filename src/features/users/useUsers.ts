@@ -2,7 +2,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { apiErrorMessage } from '@/shared/api/axiosClient'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
-import { usersApi, type CreateUserPayload, type UpdateUserPayload } from './api'
+import {
+  usersApi,
+  type CreateUserPayload,
+  type StudentsOverviewParams,
+  type UpdateUserPayload,
+} from './api'
 
 const USERS_KEY = ['users']
 
@@ -10,8 +15,11 @@ export function useUsers() {
   return useQuery({ queryKey: USERS_KEY, queryFn: usersApi.list })
 }
 
-export function useStudents() {
-  return useQuery({ queryKey: ['users', 'students'], queryFn: usersApi.listStudents })
+export function useStudentsOverview(params: StudentsOverviewParams) {
+  return useQuery({
+    queryKey: ['users', 'students', params],
+    queryFn: () => usersApi.getStudentsOverview(params),
+  })
 }
 
 export function useCreateUser() {
