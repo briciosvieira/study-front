@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/branding/icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>LF Code StudyJA</title>
+    <script>
+      // Applies the persisted theme before first paint to avoid a flash of
+      // the wrong theme; kept inline and dependency-free on purpose.
+      (function () {
+        try {
+          var THEMES = ['light', 'dark', 'rose', 'blue'];
+          var stored = localStorage.getItem('lf-code-studio-theme');
+          if (stored && THEMES.indexOf(stored) !== -1 && stored !== 'light') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

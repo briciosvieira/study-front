@@ -1,0 +1,257 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-ring: var(--ring);
+}
+
+/* ── Theme tokens ──────────────────────────────────────────── */
+/* Light is the baseline (no data-theme attribute needed). Each
+   named theme below only overrides the values that differ. */
+:root {
+  color-scheme: light;
+
+  --background: #fafafa;
+  --foreground: #18181b;
+  --surface: #ffffff;
+  --surface-muted: #f4f4f5;
+  --primary: #18181b;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #ececee;
+  --accent-foreground: #18181b;
+  --danger: #dc2626;
+  --danger-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #3f3f46;
+  --ring: #18181b;
+
+  --radius: 0.65rem;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --background: #0c0c0e;
+  --foreground: #f4f4f5;
+  --surface: #18181b;
+  --surface-muted: #202024;
+  --primary: #f4f4f5;
+  --primary-foreground: #18181b;
+  --secondary: #232327;
+  --secondary-foreground: #f4f4f5;
+  --border: #2a2a2f;
+  --input: #2a2a2f;
+  --muted: #1f1f23;
+  --muted-foreground: #9a9aa2;
+  --accent: #232327;
+  --accent-foreground: #f4f4f5;
+  --danger: #f87171;
+  --danger-foreground: #1a1a1a;
+  --card: #151517;
+  --card-foreground: #f4f4f5;
+  --sidebar: #111113;
+  --sidebar-foreground: #d4d4d8;
+  --ring: #d4d4d8;
+}
+
+[data-theme='rose'] {
+  color-scheme: light;
+
+  --background: #fffafb;
+  --foreground: #291b21;
+  --surface: #ffffff;
+  --surface-muted: #fbeef2;
+  --primary: #b1436a;
+  --primary-foreground: #ffffff;
+  --secondary: #f7e8ec;
+  --secondary-foreground: #5c2438;
+  --border: #f0dbe2;
+  --input: #f0dbe2;
+  --muted: #faf0f3;
+  --muted-foreground: #8a5d6c;
+  --accent: #fbeaf0;
+  --accent-foreground: #7a2e4c;
+  --danger: #dc2626;
+  --danger-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #291b21;
+  --sidebar: #fff7f9;
+  --sidebar-foreground: #5c2438;
+  --ring: #b1436a;
+}
+
+[data-theme='blue'] {
+  color-scheme: light;
+
+  --background: #f7f9fd;
+  --foreground: #101828;
+  --surface: #ffffff;
+  --surface-muted: #eef2fb;
+  --primary: #3358d6;
+  --primary-foreground: #ffffff;
+  --secondary: #eaf0fd;
+  --secondary-foreground: #1d3a8f;
+  --border: #dbe3f5;
+  --input: #dbe3f5;
+  --muted: #eef2fb;
+  --muted-foreground: #5b6b8c;
+  --accent: #e6edfc;
+  --accent-foreground: #24408f;
+  --danger: #dc2626;
+  --danger-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #101828;
+  --sidebar: #f2f5fc;
+  --sidebar-foreground: #24408f;
+  --ring: #3358d6;
+}
+
+body {
+  margin: 0;
+  @apply bg-background text-foreground antialiased;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+/* ── Course card animated border ──────────────────────────────
+   A short comet-like segment travels the card's perimeter using a
+   masked conic-gradient ring, colored from the theme's --primary.
+   Pure CSS; disabled entirely under reduced-motion. */
+@property --card-glow-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.card-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--card-glow-angle),
+    transparent 0deg,
+    transparent 300deg,
+    color-mix(in oklab, var(--primary) 70%, transparent) 330deg,
+    var(--primary) 345deg,
+    color-mix(in oklab, var(--primary) 70%, transparent) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.55;
+  transition:
+    opacity 0.3s ease,
+    animation-duration 0.3s ease;
+  animation: card-glow-spin 6s linear infinite;
+  pointer-events: none;
+}
+
+.card-glow:hover::before {
+  opacity: 0.9;
+  animation-duration: 3.5s;
+}
+
+@keyframes card-glow-spin {
+  to {
+    --card-glow-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-glow::before {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* ── Small, shared entrance animations for menus/dialogs ────── */
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-dropdown-in {
+  animation: dropdown-in 0.12s ease-out;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-overlay-in {
+  animation: overlay-in 0.15s ease-out;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.animate-dialog-in {
+  animation: dialog-in 0.16s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-dropdown-in,
+  .animate-overlay-in,
+  .animate-dialog-in {
+    animation: none;
+  }
+}
