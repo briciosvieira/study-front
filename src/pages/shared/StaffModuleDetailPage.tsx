@@ -1,4 +1,4 @@
-import { ArrowLeft, FileUp, Plus, Upload } from 'lucide-react'
+import { ArrowLeft, FileUp, HelpCircle, Plus, Upload } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ImportExcelModal } from '@/features/quiz/ImportExcelModal'
@@ -66,6 +66,12 @@ export function StaffModuleDetailPage({ basePath, canDelete }: { basePath: strin
             )}
             {module.type === 'QUIZ' && (
               <>
+                <Button asChild variant="secondary">
+                  <Link to={`/modules/${moduleId}/quiz`}>
+                    <HelpCircle size={16} />
+                    {t('quiz.takeQuiz')}
+                  </Link>
+                </Button>
                 <Button variant="secondary" onClick={() => setImportOpen(true)}>
                   <FileUp size={16} />
                   {t('moduleDetail.importExcel')}

@@ -34,6 +34,10 @@ export function QuizResult({
           {Math.round(result.percentage)}%
         </p>
 
+        <Button className="mt-5 w-full" onClick={onRetry} disabled={isRetrying}>
+          {t('quizResult.retry')}
+        </Button>
+
         <div className="mt-5 grid grid-cols-3 gap-3 text-center">
           <div>
             <p className="text-2xl font-semibold text-card-foreground">{result.correctAnswers}</p>
@@ -117,10 +121,6 @@ export function QuizResult({
           </div>
         ))}
       </div>
-
-      <Button className="mt-6 w-full" onClick={onRetry} disabled={isRetrying}>
-        {t('quizResult.retry')}
-      </Button>
     </div>
   )
 }

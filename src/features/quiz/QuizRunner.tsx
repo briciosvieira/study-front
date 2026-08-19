@@ -204,12 +204,17 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
 
   return (
     <div className="mx-auto max-w-xl">
-      <div className="mb-4">
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <span>{t('quiz.questionOf', { current: state.currentIndex + 1, total })}</span>
-          <span>{progressPct}%</span>
+      <div className="mb-4 flex items-start gap-3">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <span>{t('quiz.questionOf', { current: state.currentIndex + 1, total })}</span>
+            <span>{progressPct}%</span>
+          </div>
+          <Progress value={progressPct} className="mt-2" />
         </div>
-        <Progress value={progressPct} className="mt-2" />
+        <Button size="sm" onClick={goFinish} disabled={finishMutation.isPending} className="shrink-0">
+          {t('quiz.finishButton')}
+        </Button>
       </div>
 
       <div className="mb-5 flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3">
@@ -258,18 +263,13 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
         >
           {t('quiz.previous')}
         </Button>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="secondary"
-            onClick={() => dispatch({ type: 'GOTO', index: state.currentIndex + 1 })}
-            disabled={state.currentIndex === total - 1}
-          >
-            {t('quiz.next')}
-          </Button>
-          <Button onClick={goFinish} disabled={finishMutation.isPending}>
-            {t('quiz.finishButton')}
-          </Button>
-        </div>
+        <Button
+          variant="secondary"
+          onClick={() => dispatch({ type: 'GOTO', index: state.currentIndex + 1 })}
+          disabled={state.currentIndex === total - 1}
+        >
+          {t('quiz.next')}
+        </Button>
       </div>
 
       <ConfirmDialog
