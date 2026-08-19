@@ -16,7 +16,6 @@ export const videoApi = {
     moduleId: string,
     file: File,
     title: string,
-    orderLabel: string,
     onProgress?: (percent: number) => void,
   ) {
     const { data: presigned } = await api.post<PresignResponse>(
@@ -31,8 +30,10 @@ export const videoApi = {
       },
     })
 
+    // orderLabel is omitted — the backend appends it automatically after the
+    // last existing item; changing the order afterward is a separate action
     return api
-      .post<VideoItem>(`/modules/${moduleId}/video`, { title, key: presigned.key, orderLabel })
+      .post<VideoItem>(`/modules/${moduleId}/video`, { title, key: presigned.key })
       .then((r) => r.data)
   },
 

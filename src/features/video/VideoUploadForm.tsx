@@ -20,13 +20,11 @@ export function VideoUploadForm({
   const uploadVideo = useUploadVideo(moduleId)
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
-  const [orderLabel, setOrderLabel] = useState('1')
   const [progress, setProgress] = useState(0)
 
   function reset() {
     setFile(null)
     setTitle('')
-    setOrderLabel('1')
     setProgress(0)
   }
 
@@ -35,7 +33,6 @@ export function VideoUploadForm({
     await uploadVideo.mutateAsync({
       file,
       title: title || file.name,
-      orderLabel,
       onProgress: setProgress,
     })
     reset()
@@ -73,11 +70,6 @@ export function VideoUploadForm({
             placeholder={file?.name}
           />
         </div>
-        <div>
-          <Label htmlFor="video-order">{t('video.uploadOrder')}</Label>
-          <Input id="video-order" value={orderLabel} onChange={(e) => setOrderLabel(e.target.value)} />
-        </div>
-
         {uploadVideo.isPending && <Progress value={progress} />}
 
         <div className="flex justify-end gap-2 pt-2">

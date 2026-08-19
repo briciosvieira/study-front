@@ -21,14 +21,12 @@ export function useUploadPdf(moduleId: string) {
     mutationFn: ({
       file,
       title,
-      orderLabel,
       onProgress,
     }: {
       file: File
       title: string
-      orderLabel: string
       onProgress?: (percent: number) => void
-    }) => pdfApi.upload(moduleId, file, title, orderLabel, onProgress),
+    }) => pdfApi.upload(moduleId, file, title, onProgress),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: pdfKey(moduleId) })
       toast.success(t('pdf.toastUploaded'))

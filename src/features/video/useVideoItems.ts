@@ -21,14 +21,12 @@ export function useUploadVideo(moduleId: string) {
     mutationFn: ({
       file,
       title,
-      orderLabel,
       onProgress,
     }: {
       file: File
       title: string
-      orderLabel: string
       onProgress?: (percent: number) => void
-    }) => videoApi.upload(moduleId, file, title, orderLabel, onProgress),
+    }) => videoApi.upload(moduleId, file, title, onProgress),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: videoKey(moduleId) })
       toast.success(t('video.toastUploaded'))

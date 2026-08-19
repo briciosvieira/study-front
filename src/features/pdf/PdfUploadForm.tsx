@@ -20,13 +20,11 @@ export function PdfUploadForm({
   const uploadPdf = useUploadPdf(moduleId)
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
-  const [orderLabel, setOrderLabel] = useState('1')
   const [progress, setProgress] = useState(0)
 
   function reset() {
     setFile(null)
     setTitle('')
-    setOrderLabel('1')
     setProgress(0)
   }
 
@@ -35,7 +33,6 @@ export function PdfUploadForm({
     await uploadPdf.mutateAsync({
       file,
       title: title || file.name,
-      orderLabel,
       onProgress: setProgress,
     })
     reset()
@@ -73,11 +70,6 @@ export function PdfUploadForm({
             placeholder={file?.name}
           />
         </div>
-        <div>
-          <Label htmlFor="pdf-order">{t('pdf.uploadOrder')}</Label>
-          <Input id="pdf-order" value={orderLabel} onChange={(e) => setOrderLabel(e.target.value)} />
-        </div>
-
         {uploadPdf.isPending && <Progress value={progress} />}
 
         <div className="flex justify-end gap-2 pt-2">
