@@ -1,21 +1,20 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
-export function useQuizTimer(active: boolean, timeLeft: number, onTick: () => void, onExpire: () => void) {
-  const onTickRef = useRef(onTick)
-  const onExpireRef = useRef(onExpire)
-
-  useEffect(() => {
-    onTickRef.current = onTick
-    onExpireRef.current = onExpire
-  })
+// Source of truth is the persisted `questionStartedAt` timestamp, not the
+// interval — the interval only forces a re-render every second so the
+// countdown ticks visually. Reconstructs correctly across reload/remount,
+// and keeps counting into negative numbers (overtime) past the limit.
+export function useQuestionTimer(questionStartedAt: string | null, timeLimitSec: number) {
+  const [now, setNow] = useState(() => Date.now())
 
   useEffect(() => {
-    if (!active) return
-    if (timeLeft <= 0) {
-      onExpireRef.current()
-      return
-    }
-    const id = setTimeout(() => onTickRef.current(), 1000)
-    return () => clearTimeout(id)
-  }, [active, timeLeft])
+    if (!questionStartedAt) return
+    const id = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(id)
+  }, [questionStartedAt])
+
+  if (!questionStartedAt) return timeLimitSec
+
+  const elapsedSec = Math.floor((now - new Date(questionStartedAt).getTime()) / 1000)
+  return timeLimitSec - elapsedSec
 }

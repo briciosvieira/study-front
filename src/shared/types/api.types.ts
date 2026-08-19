@@ -75,32 +75,56 @@ export interface Question {
   options: QuestionOption[]
 }
 
-export interface QuizQuestionView {
+export type QuizAttemptStatus = 'IN_PROGRESS' | 'COMPLETED'
+
+export interface QuizInfo {
+  moduleId: string
+  totalQuestions: number
+  avgTimeLimitSec: number
+  latestAttemptId: string | null
+  latestStatus: QuizAttemptStatus | null
+}
+
+// Never carries `correct` on an option, or a correct-option reference — the
+// backend withholds that until the attempt is COMPLETED.
+export interface QuizAttemptQuestion {
   id: string
   statement: string
   timeLimitSec: number
+  position: number
   options: Pick<QuestionOption, 'id' | 'letter' | 'text'>[]
+  selectedOptionId: string | null
+  questionStartedAt: string | null
 }
 
-export interface QuizStartResponse {
+export interface QuizAttemptState {
   attemptId: string
-  finished: boolean
-  question?: QuizQuestionView
+  status: QuizAttemptStatus
+  startedAt: string
+  totalQuestions: number
+  questions: QuizAttemptQuestion[]
 }
 
-export interface QuizResultDetail {
-  question: string
-  chosenOption: string | null
-  correctOption: string | null
-  correct: boolean
+export interface QuizResultQuestion {
+  questionId: string
+  text: string
+  position: number
+  selectedOption: Pick<QuestionOption, 'id' | 'letter' | 'text'> | null
+  correctOption: Pick<QuestionOption, 'id' | 'letter' | 'text'> | null
+  isCorrect: boolean
+  elapsedSeconds: number
+  overtimeSeconds: number
 }
 
 export interface QuizResult {
+  attemptId: string
+  status: QuizAttemptStatus
   totalQuestions: number
-  totalCorrect: number
-  totalWrong: number
+  correctAnswers: number
+  wrongAnswers: number
+  percentage: number
   totalTimeSec: number
-  details: QuizResultDetail[]
+  questions: QuizResultQuestion[]
 }
 
 export interface ImportRowError {

@@ -3,8 +3,10 @@ import type {
   ImportStatusResponse,
   Question,
   QuestionOption,
+  QuizAttemptQuestion,
+  QuizAttemptState,
+  QuizInfo,
   QuizResult,
-  QuizStartResponse,
 } from '@/shared/types/api.types'
 
 export interface QuestionOptionPayload {
@@ -46,16 +48,22 @@ export const quizImportApi = {
 }
 
 export const attemptsApi = {
+  info: (moduleId: string) =>
+    api.get<QuizInfo>(`/modules/${moduleId}/quiz/info`).then((r) => r.data),
   start: (moduleId: string) =>
-    api.post<QuizStartResponse>(`/modules/${moduleId}/quiz/start`).then((r) => r.data),
-  answer: (attemptId: string, questionId: string, chosenOption: string | null) =>
+    api.post<QuizAttemptState>(`/modules/${moduleId}/quiz/start`).then((r) => r.data),
+  retry: (moduleId: string) =>
+    api.post<QuizAttemptState>(`/modules/${moduleId}/quiz/retry`).then((r) => r.data),
+  submitAnswer: (attemptId: string, questionId: string, selectedOptionId: string | null) =>
     api
-      .post<QuizStartResponse>(`/attempts/${attemptId}/answer`, { questionId, chosenOption })
+      .put<QuizAttemptQuestion>(`/attempts/${attemptId}/questions/${questionId}/answer`, {
+        selectedOptionId,
+      })
       .then((r) => r.data),
   finish: (attemptId: string) =>
     api.post<QuizResult>(`/attempts/${attemptId}/finish`).then((r) => r.data),
-  retry: (moduleId: string) =>
-    api.post<QuizStartResponse>(`/modules/${moduleId}/quiz/retry`).then((r) => r.data),
+  result: (attemptId: string) =>
+    api.get<QuizResult>(`/attempts/${attemptId}/result`).then((r) => r.data),
 }
 
 export type { Question, QuestionOption }
