@@ -1,5 +1,6 @@
 import { Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog'
 import { Badge } from '@/shared/components/Badge'
 import { EmptyState } from '@/shared/components/EmptyState'
@@ -21,6 +22,7 @@ const ROLE_BADGE_VARIANT: Record<Role, 'primary' | 'default' | 'muted'> = {
 
 export function UsersPage() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { data: users, isLoading } = useUsers()
   const deleteUser = useDeleteUser()
   const [formUser, setFormUser] = useState<User | 'new' | null>(null)
@@ -94,7 +96,8 @@ export function UsersPage() {
             {filteredUsers.map((user) => (
               <div
                 key={user.id}
-                className="flex items-start gap-3 rounded-xl border border-border bg-card p-4"
+                onClick={() => navigate(`/admin/users/${user.id}`)}
+                className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-card p-4 hover:border-primary/30"
               >
                 <UserAvatar name={user.name} className="mt-0.5" />
                 <div className="min-w-0 flex-1">
@@ -111,7 +114,10 @@ export function UsersPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => setFormUser(user)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setFormUser(user)
+                    }}
                     aria-label={t('common.edit')}
                   >
                     <Pencil size={16} />
@@ -120,7 +126,10 @@ export function UsersPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => setDeleteTarget(user)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setDeleteTarget(user)
+                      }}
                       aria-label={t('common.delete')}
                     >
                       <Trash2 size={16} className="text-danger" />
@@ -151,7 +160,11 @@ export function UsersPage() {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {filteredUsers.map((user) => (
-                    <tr key={user.id} className="hover:bg-accent/40">
+                    <tr
+                      key={user.id}
+                      onClick={() => navigate(`/admin/users/${user.id}`)}
+                      className="cursor-pointer hover:bg-accent/40"
+                    >
                       <td className="px-4 py-2.5">
                         <div className="flex items-center gap-2.5">
                           <UserAvatar name={user.name} className="h-8 w-8 text-xs" />
@@ -175,7 +188,10 @@ export function UsersPage() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => setFormUser(user)}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setFormUser(user)
+                            }}
                             aria-label={t('common.edit')}
                           >
                             <Pencil size={16} />
@@ -184,7 +200,10 @@ export function UsersPage() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              onClick={() => setDeleteTarget(user)}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setDeleteTarget(user)
+                              }}
                               aria-label={t('common.delete')}
                             >
                               <Trash2 size={16} className="text-danger" />

@@ -99,15 +99,3 @@ export function useRemoveCourseCover() {
   })
 }
 
-export function useSetCourseVisibility(courseId: string) {
-  const queryClient = useQueryClient()
-  const { t } = useTranslation()
-  return useMutation({
-    mutationFn: (studentIds: string[]) => coursesApi.setVisibility(courseId, studentIds),
-    onSuccess: () => {
-      toast.success(t('visibility.toastUpdated'))
-      queryClient.invalidateQueries({ queryKey: courseKey(courseId) })
-    },
-    onError: (error) => toast.error(apiErrorMessage(error, t('visibility.toastError'))),
-  })
-}

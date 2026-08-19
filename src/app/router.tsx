@@ -17,6 +17,7 @@ import {
   PdfViewerPage,
   QuizPage,
   StudentCoursePage,
+  UserDetailPage,
   UsersPage,
   VideoViewerPage,
 } from './lazyPages'
@@ -53,6 +54,7 @@ export const router = createBrowserRouter([
                 children: [
                   { index: true, element: <AdminCoursesPage /> },
                   { path: 'users', element: <UsersPage /> },
+                  { path: 'users/:userId', element: <UserDetailPage /> },
                   { path: 'courses', element: <AdminCoursesPage /> },
                   { path: 'courses/:courseId', element: <AdminCourseDetailPage /> },
                   { path: 'courses/:courseId/modules/:moduleId', element: <AdminModuleDetailPage /> },

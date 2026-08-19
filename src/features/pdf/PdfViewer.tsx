@@ -1,3 +1,8 @@
+// Ensures the URL.parse fallback exists even if this module is ever reached
+// through a path other than main.tsx's top-level import (safe no-op re-import
+// — ES modules only evaluate once).
+import '@/shared/polyfills/url-parse'
+
 import { ArrowLeft, Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
@@ -5,6 +10,9 @@ import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 import { Button } from '@/shared/components/ui/button'
 import { PageSpinner } from '@/shared/components/Spinner'
+import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { PdfErrorBoundary } from './PdfErrorBoundary'
+import { PdfLoadError } from './PdfLoadError'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -20,8 +28,15 @@ export function PdfViewer({
   title: string
   onBack: () => void
 }) {
+  const { t } = useTranslation()
   const [numPages, setNumPages] = useState(0)
   const [scale, setScale] = useState(1.1)
+  const [retryKey, setRetryKey] = useState(0)
+
+  function handleRetry() {
+    setNumPages(0)
+    setRetryKey((k) => k + 1)
+  }
 
   return (
     <div className="flex h-full flex-col bg-background">
@@ -45,15 +60,32 @@ export function PdfViewer({
       </div>
 
       <div className="flex flex-1 flex-col items-center gap-4 overflow-auto bg-surface-muted p-4">
-        <Document
-          file={fileUrl}
-          loading={<PageSpinner />}
-          onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+        <PdfErrorBoundary
+          key={retryKey}
+          fallback={<PdfLoadError onRetry={handleRetry} fileUrl={fileUrl} />}
         >
-          {Array.from({ length: numPages }, (_, i) => (
-            <Page key={i} pageNumber={i + 1} scale={scale} className="mb-4 shadow-md" />
-          ))}
-        </Document>
+          <Document
+            file={fileUrl}
+            loading={<PageSpinner />}
+            error={<PdfLoadError onRetry={handleRetry} fileUrl={fileUrl} />}
+            onLoadError={(error) => console.error('[PdfViewer] failed to load PDF:', error)}
+            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+          >
+            {Array.from({ length: numPages }, (_, i) => (
+              <Page
+                key={i}
+                pageNumber={i + 1}
+                scale={scale}
+                className="mb-4 shadow-md"
+                error={
+                  <p className="mb-4 rounded-md bg-card px-4 py-3 text-sm text-muted-foreground">
+                    {t('pdf.pageLoadError', { page: i + 1 })}
+                  </p>
+                }
+              />
+            ))}
+          </Document>
+        </PdfErrorBoundary>
       </div>
     </div>
   )

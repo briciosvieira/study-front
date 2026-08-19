@@ -22,6 +22,9 @@ export const AdminModuleDetailPage = lazy(() =>
 export const UsersPage = lazy(() =>
   import('@/pages/admin/UsersPage').then((m) => ({ default: m.UsersPage })),
 )
+export const UserDetailPage = lazy(() =>
+  import('@/pages/admin/UserDetailPage').then((m) => ({ default: m.UserDetailPage })),
+)
 
 export const InstructorCoursesPage = lazy(() =>
   import('@/pages/instructor/CoursesPage').then((m) => ({ default: m.CoursesPage })),

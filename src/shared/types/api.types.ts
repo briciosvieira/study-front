@@ -19,8 +19,37 @@ export interface Course {
   active: boolean
   createdById: string
   createdAt: string
-  // present only when a staff member (admin/instructor) fetches the course
-  visibilities?: { userId: string }[]
+}
+
+export interface EnrolledStudent {
+  id: string
+  name: string
+  email: string
+  username: string
+  assignedAt: string
+}
+
+export interface AvailableStudent {
+  id: string
+  name: string
+  email: string
+  username: string
+}
+
+export interface PaginatedResult<T> {
+  items: T[]
+  total: number
+  page: number
+  limit: number
+}
+
+export interface UserCourse {
+  id: string
+  title: string
+  description: string | null
+  coverUrl: string | null
+  active: boolean
+  assignedAt: string
 }
 
 export interface CourseModule {

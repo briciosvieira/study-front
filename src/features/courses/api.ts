@@ -1,5 +1,16 @@
 import { api } from '@/shared/api/axiosClient'
-import type { Course } from '@/shared/types/api.types'
+import type {
+  AvailableStudent,
+  Course,
+  EnrolledStudent,
+  PaginatedResult,
+} from '@/shared/types/api.types'
+
+export interface StudentListParams {
+  search?: string
+  page?: number
+  limit?: number
+}
 
 export interface CreateCoursePayload {
   title: string
@@ -16,8 +27,19 @@ export const coursesApi = {
   update: (id: string, payload: UpdateCoursePayload) =>
     api.patch<Course>(`/courses/${id}`, payload).then((r) => r.data),
   remove: (id: string) => api.delete(`/courses/${id}`),
-  setVisibility: (id: string, studentIds: string[]) =>
-    api.put(`/courses/${id}/visibility`, { studentIds }),
+
+  getStudents: (id: string, params?: StudentListParams) =>
+    api
+      .get<PaginatedResult<EnrolledStudent>>(`/courses/${id}/students`, { params })
+      .then((r) => r.data),
+  getAvailableStudents: (id: string, params?: StudentListParams) =>
+    api
+      .get<PaginatedResult<AvailableStudent>>(`/courses/${id}/available-students`, { params })
+      .then((r) => r.data),
+  addStudents: (id: string, userIds: string[]) =>
+    api.post(`/courses/${id}/students`, { userIds }).then((r) => r.data),
+  removeStudent: (id: string, userId: string) =>
+    api.delete(`/courses/${id}/students/${userId}`).then((r) => r.data),
 
   uploadCover: (id: string, file: File, onProgress?: (percent: number) => void) => {
     const formData = new FormData()
