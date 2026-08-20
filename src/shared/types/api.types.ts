@@ -71,6 +71,7 @@ export interface CourseModule {
   coverUrl: string | null
   visible: boolean
   order: number
+  studyPriority: number
   createdAt: string
 }
 
@@ -179,6 +180,90 @@ export interface ImportStatusResponse {
   withError?: number
   errors?: ImportRowError[]
   reason?: string
+}
+
+export type StudySessionStatus = 'IN_PROGRESS' | 'COMPLETED'
+
+export interface StudySession {
+  id: string
+  userId: string
+  courseId: string
+  moduleId: string
+  status: StudySessionStatus
+  startedAt: string
+  endedAt: string | null
+  durationSeconds: number | null
+}
+
+export interface ActiveStudySession {
+  id: string
+  moduleId: string
+  moduleTitle: string
+  moduleType: ModuleType
+  courseId: string
+  courseTitle: string
+  startedAt: string
+}
+
+export interface StudyDaySession {
+  id: string
+  moduleId: string
+  moduleTitle: string
+  moduleType: ModuleType
+  startedAt: string
+  endedAt: string | null
+  durationSeconds: number | null
+}
+
+export interface StudyDayGroup {
+  date: string
+  totalSeconds: number
+  sessions: StudyDaySession[]
+}
+
+export interface StudyScheduleSummary {
+  totalSecondsLast14Days: number
+  sessionsCountLast14Days: number
+  modulesStudiedLast14Days: number
+  totalSecondsToday: number
+}
+
+export type StudyRecommendationReason =
+  | 'NEVER_STUDIED'
+  | 'LOW_QUIZ_SCORE'
+  | 'LONG_TIME_NO_STUDY'
+  | 'HIGH_PRIORITY'
+  | 'LOW_COVERAGE'
+
+export interface StudyRecommendation {
+  moduleId: string
+  title: string
+  type: ModuleType
+  reason: StudyRecommendationReason
+  daysSinceLastStudy: number | null
+  quizPercentage: number | null
+  studyPriority: number
+}
+
+export interface StudySchedule {
+  activeSession: ActiveStudySession | null
+  summary: StudyScheduleSummary
+  history: StudyDayGroup[]
+  recommendations: StudyRecommendation[]
+}
+
+export interface TemplateLibraryFile {
+  id: string
+  name: string
+  description: string | null
+  originalName: string
+  storageKey: string
+  mimeType: string
+  fileSize: number
+  uploadedById: string
+  uploadedBy: { id: string; name: string }
+  createdAt: string
+  updatedAt: string
 }
 
 export interface ApiErrorBody {

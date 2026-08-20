@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { CourseOverview, type CourseContentTab } from '@/features/courses/CourseOverview'
 import { useCourse } from '@/features/courses/useCourses'
 import { useModules } from '@/features/modules/useModules'
+import { CourseScheduleTab } from '@/features/study-schedule/CourseScheduleTab'
 import { EmptyState } from '@/shared/components/EmptyState'
 import { PageSpinner } from '@/shared/components/Spinner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs'
@@ -13,7 +14,7 @@ import { naturalSortByTitle } from '@/shared/utils/naturalSort'
 import type { CourseModule } from '@/shared/types/api.types'
 import { StudentModuleSection } from './StudentModuleSection'
 
-const TAB_VALUES = ['overview', 'pdf', 'videos', 'quiz'] as const
+const TAB_VALUES = ['overview', 'pdf', 'videos', 'quiz', 'schedule'] as const
 
 export function StudentCoursePage() {
   const { t } = useTranslation()
@@ -68,6 +69,7 @@ export function StudentCoursePage() {
           <TabsTrigger value="pdf">{t('courseDetail.tabPdf')}</TabsTrigger>
           <TabsTrigger value="videos">{t('courseDetail.tabVideos')}</TabsTrigger>
           <TabsTrigger value="quiz">{t('courseDetail.tabQuiz')}</TabsTrigger>
+          <TabsTrigger value="schedule">{t('courseDetail.tabSchedule')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="pt-6">
@@ -90,6 +92,10 @@ export function StudentCoursePage() {
 
         <TabsContent value="quiz" className="pt-6">
           {renderList(quizModules, t('modules.emptyQuiz'))}
+        </TabsContent>
+
+        <TabsContent value="schedule" className="pt-6">
+          <CourseScheduleTab courseId={courseId} modules={modules ?? []} />
         </TabsContent>
       </Tabs>
     </div>

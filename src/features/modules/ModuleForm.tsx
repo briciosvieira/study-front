@@ -12,6 +12,7 @@ import type { CourseModule, ModuleType } from '@/shared/types/api.types'
 import { useCreateModule, useUpdateModule } from './useModules'
 
 const MODULE_TYPES: ModuleType[] = ['PDF', 'VIDEO', 'QUIZ']
+const STUDY_PRIORITIES = [1, 2, 3, 4, 5] as const
 
 export function ModuleForm({
   open,
@@ -40,6 +41,7 @@ export function ModuleForm({
         type: z.enum(MODULE_TYPES),
         title: z.string().min(2, t('common.tooShort')),
         coverUrl: z.url(t('common.invalidUrl')).optional().or(z.literal('')),
+        studyPriority: z.number().min(1).max(5),
       }),
     [t],
   )
@@ -56,6 +58,7 @@ export function ModuleForm({
       type: existingModule?.type ?? defaultType ?? 'PDF',
       title: existingModule?.title ?? '',
       coverUrl: existingModule?.coverUrl ?? '',
+      studyPriority: existingModule?.studyPriority ?? 3,
     },
   })
 
@@ -98,6 +101,16 @@ export function ModuleForm({
           <Label htmlFor="coverUrl">{t('moduleForm.coverUrl')}</Label>
           <Input id="coverUrl" aria-invalid={!!errors.coverUrl} {...register('coverUrl')} />
           {errors.coverUrl && <p className="mt-1 text-xs text-danger">{errors.coverUrl.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="studyPriority">{t('moduleForm.studyPriority')}</Label>
+          <Select id="studyPriority" {...register('studyPriority', { valueAsNumber: true })}>
+            {STUDY_PRIORITIES.map((priority) => (
+              <option key={priority} value={priority}>
+                {t(`moduleForm.studyPriorityLevel.${priority}`)}
+              </option>
+            ))}
+          </Select>
         </div>
 
         <div className="flex justify-end gap-2 pt-2">

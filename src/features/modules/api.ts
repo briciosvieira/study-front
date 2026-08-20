@@ -5,6 +5,7 @@ export interface CreateModulePayload {
   type: ModuleType
   title: string
   coverUrl?: string
+  studyPriority?: number
 }
 export type UpdateModulePayload = Partial<CreateModulePayload> & { order?: number }
 
