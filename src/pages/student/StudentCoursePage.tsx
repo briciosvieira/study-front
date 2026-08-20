@@ -9,6 +9,7 @@ import { PageSpinner } from '@/shared/components/Spinner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs'
 import { useTabParam } from '@/shared/hooks/useTabParam'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { naturalSortByTitle } from '@/shared/utils/naturalSort'
 import type { CourseModule } from '@/shared/types/api.types'
 import { StudentModuleSection } from './StudentModuleSection'
 
@@ -21,9 +22,18 @@ export function StudentCoursePage() {
   const { data: course, isLoading: isLoadingCourse } = useCourse(courseId)
   const { data: modules, isLoading: isLoadingModules } = useModules(courseId)
 
-  const pdfModules = useMemo(() => modules?.filter((m) => m.type === 'PDF') ?? [], [modules])
-  const videoModules = useMemo(() => modules?.filter((m) => m.type === 'VIDEO') ?? [], [modules])
-  const quizModules = useMemo(() => modules?.filter((m) => m.type === 'QUIZ') ?? [], [modules])
+  const pdfModules = useMemo(
+    () => naturalSortByTitle(modules?.filter((m) => m.type === 'PDF') ?? [], (m) => m.title),
+    [modules],
+  )
+  const videoModules = useMemo(
+    () => naturalSortByTitle(modules?.filter((m) => m.type === 'VIDEO') ?? [], (m) => m.title),
+    [modules],
+  )
+  const quizModules = useMemo(
+    () => naturalSortByTitle(modules?.filter((m) => m.type === 'QUIZ') ?? [], (m) => m.title),
+    [modules],
+  )
 
   if (isLoadingCourse || isLoadingModules) return <PageSpinner />
   if (!course) return <EmptyState title={t('student.courseNotFound')} />

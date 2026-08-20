@@ -17,6 +17,7 @@ import { Button } from '@/shared/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs'
 import { useTabParam } from '@/shared/hooks/useTabParam'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import { naturalSortByTitle } from '@/shared/utils/naturalSort'
 import type { CourseModule, ModuleType } from '@/shared/types/api.types'
 
 const TAB_VALUES = ['overview', 'pdf', 'videos', 'quiz'] as const
@@ -36,9 +37,18 @@ export function StaffCourseDetailPage({ basePath, canDelete }: { basePath: strin
   const [visibilityOpen, setVisibilityOpen] = useState(false)
   const [courseFormOpen, setCourseFormOpen] = useState(false)
 
-  const pdfModules = useMemo(() => modules?.filter((m) => m.type === 'PDF') ?? [], [modules])
-  const videoModules = useMemo(() => modules?.filter((m) => m.type === 'VIDEO') ?? [], [modules])
-  const quizModules = useMemo(() => modules?.filter((m) => m.type === 'QUIZ') ?? [], [modules])
+  const pdfModules = useMemo(
+    () => naturalSortByTitle(modules?.filter((m) => m.type === 'PDF') ?? [], (m) => m.title),
+    [modules],
+  )
+  const videoModules = useMemo(
+    () => naturalSortByTitle(modules?.filter((m) => m.type === 'VIDEO') ?? [], (m) => m.title),
+    [modules],
+  )
+  const quizModules = useMemo(
+    () => naturalSortByTitle(modules?.filter((m) => m.type === 'QUIZ') ?? [], (m) => m.title),
+    [modules],
+  )
 
   if (isLoadingCourse) return <PageSpinner />
   if (!course) return <EmptyState title={t('courses.notFound')} />
