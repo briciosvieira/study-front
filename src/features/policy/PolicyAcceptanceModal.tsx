@@ -32,7 +32,7 @@ export function PolicyAcceptanceModal() {
 
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center bg-background px-4 py-10">
-      <div className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-8 shadow-xl">
+      <div className="relative w-full max-w-3xl rounded-2xl border border-border bg-card p-6 shadow-xl sm:p-8">
         <button
           type="button"
           onClick={handleDismiss}
@@ -51,8 +51,8 @@ export function PolicyAcceptanceModal() {
           {t('policy.version', { version: data.policyVersion.version })}
         </p>
 
-        <div className="mt-4 max-h-64 overflow-y-auto rounded-lg border border-border bg-surface p-4 text-sm text-foreground">
-          <p className="whitespace-pre-wrap">{data.policyVersion.content}</p>
+        <div className="mt-4 max-h-[70vh] overflow-y-auto rounded-lg border border-border bg-surface p-4 text-sm leading-6 text-foreground sm:p-5">
+          <div className="whitespace-pre-wrap break-words">{data.policyVersion.content}</div>
         </div>
 
         <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
