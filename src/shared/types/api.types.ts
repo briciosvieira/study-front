@@ -8,6 +8,8 @@ export interface User {
   username: string
   role: Role
   active: boolean
+  avatarUrl: string | null
+  mustChangePassword: boolean
   createdAt: string
 }
 
@@ -59,6 +61,7 @@ export interface StudentOverview {
   name: string
   email: string
   username: string
+  avatarUrl: string | null
   totalCourses: number
   courses: { id: string; title: string }[]
 }

@@ -16,7 +16,7 @@
       // the wrong theme; kept inline and dependency-free on purpose.
       (function () {
         try {
-          var THEMES = ['light', 'dark', 'rose', 'blue'];
+          var THEMES = ['light', 'slate', 'dark', 'rose', 'blue'];
           var stored = localStorage.getItem('lf-code-studio-theme');
           if (stored && THEMES.indexOf(stored) !== -1 && stored !== 'light') {
             document.documentElement.setAttribute('data-theme', stored);

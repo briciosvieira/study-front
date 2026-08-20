@@ -6,6 +6,7 @@ interface AuthState {
   user: User | null
   setSession: (accessToken: string, user: User) => void
   setAccessToken: (accessToken: string) => void
+  setUser: (user: User) => void
   clearSession: () => void
 }
 
@@ -17,5 +18,8 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   setSession: (accessToken, user) => set({ accessToken, user }),
   setAccessToken: (accessToken) => set({ accessToken }),
+  // Profile/avatar/password mutations return the fresh user object — this is
+  // how the header/sidebar/menu pick it up immediately, no refetch or reload.
+  setUser: (user) => set({ user }),
   clearSession: () => set({ accessToken: null, user: null }),
 }))

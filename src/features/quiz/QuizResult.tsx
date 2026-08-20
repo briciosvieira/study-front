@@ -62,13 +62,13 @@ export function QuizResult({
             key={question.questionId}
             className={
               question.isCorrect
-                ? 'rounded-xl border border-emerald-600/30 bg-emerald-600/5 p-4'
+                ? 'rounded-xl border border-success/30 bg-success/5 p-4'
                 : 'rounded-xl border border-danger/30 bg-danger/5 p-4'
             }
           >
             <div className="flex items-start gap-2">
               {question.isCorrect ? (
-                <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-emerald-600" />
+                <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-success" />
               ) : (
                 <XCircle size={18} className="mt-0.5 shrink-0 text-danger" />
               )}
@@ -91,7 +91,7 @@ export function QuizResult({
                     <p className="text-xs text-muted-foreground">
                       {t('quizResult.correctAnswerLabel')}
                     </p>
-                    <p className="text-sm text-emerald-600">
+                    <p className="text-sm text-success">
                       {question.correctOption
                         ? `${question.correctOption.letter}) ${question.correctOption.text}`
                         : '—'}
@@ -110,7 +110,7 @@ export function QuizResult({
                 <p
                   className={
                     question.isCorrect
-                      ? 'mt-2 text-sm font-semibold text-emerald-600'
+                      ? 'mt-2 text-sm font-semibold text-success'
                       : 'mt-2 text-sm font-semibold text-danger'
                   }
                 >

@@ -57,7 +57,7 @@ export function QuestionList({
               <li
                 key={option.id}
                 className={
-                  option.correct ? 'text-sm font-medium text-emerald-600' : 'text-sm text-muted-foreground'
+                  option.correct ? 'text-sm font-medium text-success' : 'text-sm text-muted-foreground'
                 }
               >
                 {option.letter}) {option.text}

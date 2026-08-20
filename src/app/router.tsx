@@ -9,17 +9,22 @@ import {
   AdminCourseDetailPage,
   AdminCoursesPage,
   AdminModuleDetailPage,
+  AdminProfilePage,
   AdminTemplateLibraryPage,
+  ChangeRequiredPasswordPage,
   InstructorCourseDetailPage,
   InstructorCoursesPage,
   InstructorModuleDetailPage,
+  InstructorProfilePage,
   InstructorTemplateLibraryPage,
+  InstructorUsersPage,
   LoginPage,
   MyCoursesPage,
   PdfViewerPage,
   QuizPage,
   StudentCoursePage,
   StudentDetailPage,
+  StudentProfilePage,
   StudentsPage,
   UserDetailPage,
   UsersPage,
@@ -43,6 +48,11 @@ export const router = createBrowserRouter([
         children: [
           { path: '/', element: <HomeRedirect /> },
 
+          // reachable regardless of role, with no sidebar chrome — see
+          // RequireAuth for the redirect that sends users here while
+          // mustChangePassword is true
+          { path: '/change-required-password', element: <ChangeRequiredPasswordPage /> },
+
           // content viewers are reachable from any staff or student area,
           // so they live outside the role-gated subtrees below
           { path: '/modules/:moduleId/pdf/:pdfId', element: <PdfViewerPage /> },
@@ -65,6 +75,7 @@ export const router = createBrowserRouter([
                   { path: 'courses/:courseId', element: <AdminCourseDetailPage /> },
                   { path: 'courses/:courseId/modules/:moduleId', element: <AdminModuleDetailPage /> },
                   { path: 'template-library', element: <AdminTemplateLibraryPage /> },
+                  { path: 'profile', element: <AdminProfilePage /> },
                 ],
               },
             ],
@@ -84,6 +95,8 @@ export const router = createBrowserRouter([
                     element: <InstructorModuleDetailPage />,
                   },
                   { path: 'template-library', element: <InstructorTemplateLibraryPage /> },
+                  { path: 'users', element: <InstructorUsersPage /> },
+                  { path: 'profile', element: <InstructorProfilePage /> },
                 ],
               },
             ],
@@ -97,6 +110,7 @@ export const router = createBrowserRouter([
                 children: [
                   { index: true, element: <MyCoursesPage /> },
                   { path: 'courses/:courseId', element: <StudentCoursePage /> },
+                  { path: 'profile', element: <StudentProfilePage /> },
                 ],
               },
             ],

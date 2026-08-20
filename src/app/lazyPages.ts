@@ -9,6 +9,11 @@ export const LoginPage = lazy(() =>
 export const AboutPage = lazy(() =>
   import('@/pages/about/AboutPage').then((m) => ({ default: m.AboutPage })),
 )
+export const ChangeRequiredPasswordPage = lazy(() =>
+  import('@/pages/auth/ChangeRequiredPasswordPage').then((m) => ({
+    default: m.ChangeRequiredPasswordPage,
+  })),
+)
 
 export const AdminCoursesPage = lazy(() =>
   import('@/pages/admin/CoursesPage').then((m) => ({ default: m.CoursesPage })),
@@ -34,6 +39,9 @@ export const StudentDetailPage = lazy(() =>
 export const AdminTemplateLibraryPage = lazy(() =>
   import('@/pages/admin/TemplateLibraryPage').then((m) => ({ default: m.TemplateLibraryPage })),
 )
+export const AdminProfilePage = lazy(() =>
+  import('@/pages/admin/ProfilePage').then((m) => ({ default: m.ProfilePage })),
+)
 
 export const InstructorCoursesPage = lazy(() =>
   import('@/pages/instructor/CoursesPage').then((m) => ({ default: m.CoursesPage })),
@@ -47,12 +55,21 @@ export const InstructorModuleDetailPage = lazy(() =>
 export const InstructorTemplateLibraryPage = lazy(() =>
   import('@/pages/instructor/TemplateLibraryPage').then((m) => ({ default: m.TemplateLibraryPage })),
 )
+export const InstructorProfilePage = lazy(() =>
+  import('@/pages/instructor/ProfilePage').then((m) => ({ default: m.ProfilePage })),
+)
+export const InstructorUsersPage = lazy(() =>
+  import('@/pages/instructor/UsersPage').then((m) => ({ default: m.UsersPage })),
+)
 
 export const MyCoursesPage = lazy(() =>
   import('@/pages/student/MyCoursesPage').then((m) => ({ default: m.MyCoursesPage })),
 )
 export const StudentCoursePage = lazy(() =>
   import('@/pages/student/StudentCoursePage').then((m) => ({ default: m.StudentCoursePage })),
+)
+export const StudentProfilePage = lazy(() =>
+  import('@/pages/student/ProfilePage').then((m) => ({ default: m.ProfilePage })),
 )
 
 export const PdfViewerPage = lazy(() =>

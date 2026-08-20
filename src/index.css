@@ -19,6 +19,10 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-sidebar: var(--sidebar);
@@ -48,6 +52,10 @@
   --accent-foreground: #18181b;
   --danger: #dc2626;
   --danger-foreground: #ffffff;
+  --success: #059669;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
   --card: #ffffff;
   --card-foreground: #18181b;
   --sidebar: #ffffff;
@@ -55,6 +63,39 @@
   --ring: #18181b;
 
   --radius: 0.65rem;
+}
+
+[data-theme='slate'] {
+  color-scheme: dark;
+
+  /* Deliberately its own palette, not a lightened Dark: a graphite/slate
+     gray with a faint cool-blue undertone, tuned for long reading sessions —
+     no surface here ever resolves to white or nearly-white. */
+  --background: #20252a;
+  --foreground: #e6e9ec;
+  --surface: #2b3239;
+  --surface-muted: #262c32;
+  --primary: #7f95aa;
+  --primary-foreground: #f1f3f5;
+  --secondary: #343c44;
+  --secondary-foreground: #dce1e5;
+  --border: #3d464f;
+  --input: #3d464f;
+  --muted: #343b42;
+  --muted-foreground: #909ba5;
+  --accent: #38414a;
+  --accent-foreground: #e6e9ec;
+  --danger: #cf7474;
+  --danger-foreground: #2a1416;
+  --success: #68a985;
+  --success-foreground: #16211b;
+  --warning: #d2a667;
+  --warning-foreground: #241c0f;
+  --card: #2d343b;
+  --card-foreground: #e6e9ec;
+  --sidebar: #262c32;
+  --sidebar-foreground: #b8c0c8;
+  --ring: #7f95aa;
 }
 
 [data-theme='dark'] {
@@ -76,6 +117,10 @@
   --accent-foreground: #f4f4f5;
   --danger: #f87171;
   --danger-foreground: #1a1a1a;
+  --success: #059669;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
   --card: #151517;
   --card-foreground: #f4f4f5;
   --sidebar: #111113;
@@ -102,6 +147,10 @@
   --accent-foreground: #7a2e4c;
   --danger: #dc2626;
   --danger-foreground: #ffffff;
+  --success: #059669;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
   --card: #ffffff;
   --card-foreground: #291b21;
   --sidebar: #fff7f9;
@@ -128,6 +177,10 @@
   --accent-foreground: #24408f;
   --danger: #dc2626;
   --danger-foreground: #ffffff;
+  --success: #059669;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
   --card: #ffffff;
   --card-foreground: #101828;
   --sidebar: #f2f5fc;

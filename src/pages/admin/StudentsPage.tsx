@@ -83,7 +83,7 @@ export function StudentsPage() {
                 to={`/admin/students/${student.id}`}
                 className="flex items-start gap-3 rounded-xl border border-border bg-card p-4 hover:border-primary/30"
               >
-                <UserAvatar name={student.name} className="mt-0.5" />
+                <UserAvatar name={student.name} avatarUrl={student.avatarUrl} className="mt-0.5" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-card-foreground">{student.name}</p>
                   <p className="truncate text-sm text-muted-foreground">{student.email}</p>
@@ -115,7 +115,11 @@ export function StudentsPage() {
                       </td>
                       <td className="px-4 py-2.5">
                         <div className="flex items-center gap-2.5">
-                          <UserAvatar name={student.name} className="h-8 w-8 text-xs" />
+                          <UserAvatar
+                            name={student.name}
+                            avatarUrl={student.avatarUrl}
+                            className="h-8 w-8 text-xs"
+                          />
                           <div className="min-w-0">
                             <p className="truncate font-medium text-card-foreground">{student.name}</p>
                             <p className="truncate text-xs text-muted-foreground">{student.email}</p>

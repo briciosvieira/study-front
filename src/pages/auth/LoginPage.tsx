@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -63,7 +64,9 @@ export function LoginPage() {
 
         {loginMutation.isError && (
           <p className="text-sm text-danger">
-            {apiErrorMessage(loginMutation.error, t('auth.invalidCredentials'))}
+            {axios.isAxiosError(loginMutation.error) && loginMutation.error.response?.status === 403
+              ? t('auth.accountDeactivated')
+              : apiErrorMessage(loginMutation.error, t('auth.invalidCredentials'))}
           </p>
         )}
 

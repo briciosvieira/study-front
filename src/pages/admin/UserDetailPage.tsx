@@ -68,7 +68,7 @@ export function UserDetailPage({
       <div className="grid gap-6 lg:grid-cols-[minmax(0,20rem)_1fr]">
         <div className="rounded-xl border border-border bg-card p-5">
           <div className="flex items-center gap-3">
-            <UserAvatar name={user.name} className="h-11 w-11" />
+            <UserAvatar name={user.name} avatarUrl={user.avatarUrl} className="h-11 w-11" />
             <div className="min-w-0">
               <p className="truncate font-medium text-card-foreground">{user.name}</p>
               <Badge variant={ROLE_BADGE_VARIANT[user.role]}>{t(`roles.${user.role}`)}</Badge>

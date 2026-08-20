@@ -26,6 +26,8 @@ export const usersApi = {
   update: (id: string, payload: UpdateUserPayload) =>
     api.patch<User>(`/users/${id}`, payload).then((r) => r.data),
   remove: (id: string) => api.delete(`/users/${id}`),
+  resetPassword: (id: string, newPassword: string) =>
+    api.post(`/users/${id}/reset-password`, { newPassword }).then((r) => r.data),
 
   getCourses: (id: string) => api.get<UserCourse[]>(`/users/${id}/courses`).then((r) => r.data),
   getAvailableCourses: (id: string, search?: string) =>

@@ -61,3 +61,41 @@ export function useDeleteUser() {
     onError: (error) => toast.error(apiErrorMessage(error, t('users.toastDeleteError'))),
   })
 }
+
+export function useActivateUser() {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  return useMutation({
+    mutationFn: (id: string) => usersApi.update(id, { active: true }),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: USERS_KEY })
+      queryClient.invalidateQueries({ queryKey: ['users', id] })
+      toast.success(t('users.toastActivated'))
+    },
+    onError: (error) => toast.error(apiErrorMessage(error, t('users.toastActivateError'))),
+  })
+}
+
+export function useDeactivateUser() {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  return useMutation({
+    mutationFn: (id: string) => usersApi.update(id, { active: false }),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: USERS_KEY })
+      queryClient.invalidateQueries({ queryKey: ['users', id] })
+      toast.success(t('users.toastDeactivated'))
+    },
+    onError: (error) => toast.error(apiErrorMessage(error, t('users.toastDeactivateError'))),
+  })
+}
+
+export function useResetUserPassword() {
+  const { t } = useTranslation()
+  return useMutation({
+    mutationFn: ({ id, newPassword }: { id: string; newPassword: string }) =>
+      usersApi.resetPassword(id, newPassword),
+    onSuccess: () => toast.success(t('users.toastPasswordReset')),
+    onError: (error) => toast.error(apiErrorMessage(error, t('users.toastPasswordResetError'))),
+  })
+}
