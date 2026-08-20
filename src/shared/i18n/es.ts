@@ -103,6 +103,20 @@ const es: Dictionary = {
     coverTooLarge: 'Imagen demasiado grande — máximo 5MB',
     coverUploadError: 'No se pudo subir la portada',
     coverRemoveError: 'No se pudo quitar la portada',
+    about: 'Sobre este curso',
+    targetAudience: 'Para quién es este curso',
+  },
+  courseDetail: {
+    tabOverview: 'Inicio',
+    tabPdf: 'Documentos PDF',
+    tabVideos: 'Videos',
+    tabQuiz: 'Preguntas y Respuestas',
+    quizSubtitle: 'Quizzes y simulacros de este curso.',
+    about: 'Sobre este curso',
+    aboutEmpty: 'Sin información adicional por ahora.',
+    targetAudience: 'Para quién es este curso',
+    targetAudienceEmpty: 'Sin información adicional por ahora.',
+    contentTitle: 'Contenido del curso',
   },
   courseAccess: {
     title: 'Gestionar acceso al curso',
@@ -138,6 +152,9 @@ const es: Dictionary = {
     visibleHint: 'Visible para estudiantes',
     hiddenHint: 'Oculto para estudiantes',
     notFound: 'Módulo no encontrado',
+    emptyPdf: 'Aún no hay documentos PDF registrados en este curso.',
+    emptyVideo: 'Aún no hay videos registrados en este curso.',
+    emptyQuiz: 'Aún no hay quizzes registrados en este curso.',
   },
   moduleForm: {
     titleNew: 'Nuevo módulo',
@@ -152,6 +169,9 @@ const es: Dictionary = {
     uploadVideo: 'Subir video',
     importExcel: 'Importar Excel',
     newQuestion: 'Nueva pregunta',
+    newPdfModule: 'Nuevo PDF',
+    newVideoModule: 'Nuevo video',
+    newQuizModule: 'Nuevo Quiz',
   },
   pdf: {
     empty: 'Aún no hay PDFs',
@@ -317,7 +337,6 @@ const es: Dictionary = {
     emptyDescription: 'Los cursos compartidos contigo aparecerán aquí.',
     coursesSubtitle: 'Sigue aprendiendo y explora tus cursos disponibles.',
     courseNotFound: 'Curso no encontrado',
-    contentEmpty: 'Aún no hay contenido disponible',
   },
 }
 

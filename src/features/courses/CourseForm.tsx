@@ -38,6 +38,8 @@ export function CourseForm({
       z.object({
         title: z.string().min(2, t('common.tooShort')),
         description: z.string().optional(),
+        about: z.string().optional(),
+        targetAudience: z.string().optional(),
       }),
     [t],
   )
@@ -53,6 +55,8 @@ export function CourseForm({
     values: {
       title: course?.title ?? '',
       description: course?.description ?? '',
+      about: course?.about ?? '',
+      targetAudience: course?.targetAudience ?? '',
     },
   })
 
@@ -103,7 +107,15 @@ export function CourseForm({
         </div>
         <div>
           <Label htmlFor="description">{t('courseForm.description')}</Label>
-          <Textarea id="description" rows={3} {...register('description')} />
+          <Textarea id="description" rows={2} {...register('description')} />
+        </div>
+        <div>
+          <Label htmlFor="about">{t('courseForm.about')}</Label>
+          <Textarea id="about" rows={4} {...register('about')} />
+        </div>
+        <div>
+          <Label htmlFor="targetAudience">{t('courseForm.targetAudience')}</Label>
+          <Textarea id="targetAudience" rows={3} {...register('targetAudience')} />
         </div>
 
         <div className="flex justify-end gap-2 pt-2">

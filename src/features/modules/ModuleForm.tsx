@@ -18,16 +18,21 @@ export function ModuleForm({
   onOpenChange,
   courseId,
   module: existingModule,
+  defaultType,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   courseId: string
   module?: CourseModule
+  // pre-selects (and locks) the type when creating from a tab-specific
+  // "+ New PDF/Video/Quiz" button — irrelevant while editing
+  defaultType?: ModuleType
 }) {
   const { t } = useTranslation()
   const createModule = useCreateModule(courseId)
   const updateModule = useUpdateModule(courseId)
   const isEditing = !!existingModule
+  const isTypeLocked = isEditing || !!defaultType
 
   const schema = useMemo(
     () =>
@@ -48,7 +53,7 @@ export function ModuleForm({
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     values: {
-      type: existingModule?.type ?? 'PDF',
+      type: existingModule?.type ?? defaultType ?? 'PDF',
       title: existingModule?.title ?? '',
       coverUrl: existingModule?.coverUrl ?? '',
     },
@@ -81,7 +86,7 @@ export function ModuleForm({
         </div>
         <div>
           <Label htmlFor="type">{t('moduleForm.type')}</Label>
-          <Select id="type" disabled={isEditing} {...register('type')}>
+          <Select id="type" disabled={isTypeLocked} {...register('type')}>
             {MODULE_TYPES.map((type) => (
               <option key={type} value={type}>
                 {type}

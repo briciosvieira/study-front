@@ -15,6 +15,8 @@ export interface Course {
   id: string
   title: string
   description: string | null
+  about: string | null
+  targetAudience: string | null
   coverUrl: string | null
   active: boolean
   createdById: string

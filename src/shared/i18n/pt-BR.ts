@@ -101,6 +101,20 @@ const ptBR = {
     coverTooLarge: 'Imagem muito grande — máximo de 5MB',
     coverUploadError: 'Não foi possível enviar a capa',
     coverRemoveError: 'Não foi possível remover a capa',
+    about: 'Sobre este curso',
+    targetAudience: 'Para quem é este curso',
+  },
+  courseDetail: {
+    tabOverview: 'Inicial',
+    tabPdf: 'Documentos PDF',
+    tabVideos: 'Vídeos',
+    tabQuiz: 'Perguntas e Respostas',
+    quizSubtitle: 'Quizzes e simulados deste curso.',
+    about: 'Sobre este curso',
+    aboutEmpty: 'Nenhuma informação adicional cadastrada.',
+    targetAudience: 'Para quem é este curso',
+    targetAudienceEmpty: 'Nenhuma informação adicional cadastrada.',
+    contentTitle: 'Conteúdo do curso',
   },
   courseAccess: {
     title: 'Gerenciar acesso ao curso',
@@ -136,6 +150,9 @@ const ptBR = {
     visibleHint: 'Visível para estudantes',
     hiddenHint: 'Oculto para estudantes',
     notFound: 'Módulo não encontrado',
+    emptyPdf: 'Nenhum documento PDF cadastrado neste curso.',
+    emptyVideo: 'Nenhum vídeo cadastrado neste curso.',
+    emptyQuiz: 'Nenhum quiz cadastrado neste curso.',
   },
   moduleForm: {
     titleNew: 'Novo módulo',
@@ -150,6 +167,9 @@ const ptBR = {
     uploadVideo: 'Enviar vídeo',
     importExcel: 'Importar Excel',
     newQuestion: 'Nova pergunta',
+    newPdfModule: 'Novo PDF',
+    newVideoModule: 'Novo vídeo',
+    newQuizModule: 'Novo Quiz',
   },
   pdf: {
     empty: 'Nenhum PDF ainda',
@@ -315,7 +335,6 @@ const ptBR = {
     emptyDescription: 'Cursos compartilhados com você vão aparecer aqui.',
     coursesSubtitle: 'Continue aprendendo e explore seus cursos disponíveis.',
     courseNotFound: 'Curso não encontrado',
-    contentEmpty: 'Nenhum conteúdo disponível ainda',
   },
 };
 

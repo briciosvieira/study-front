@@ -1,6 +1,6 @@
 import { ArrowLeft, FileUp, HelpCircle, Plus, Upload } from 'lucide-react'
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ImportExcelModal } from '@/features/quiz/ImportExcelModal'
 import { QuestionForm } from '@/features/quiz/QuestionForm'
 import { QuestionList } from '@/features/quiz/QuestionList'
@@ -20,8 +20,9 @@ import { Button } from '@/shared/components/ui/button'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import type { Question } from '@/shared/types/api.types'
 
-export function StaffModuleDetailPage({ basePath, canDelete }: { basePath: string; canDelete: boolean }) {
+export function StaffModuleDetailPage({ canDelete }: { canDelete: boolean }) {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { courseId = '', moduleId = '' } = useParams()
   const { data: modules, isLoading: isLoadingModules } = useModules(courseId)
   const module = modules?.find((m) => m.id === moduleId)
@@ -40,13 +41,14 @@ export function StaffModuleDetailPage({ basePath, canDelete }: { basePath: strin
 
   return (
     <div>
-      <Link
-        to={`${basePath}/${courseId}`}
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
         className="mb-4 flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft size={14} />
         {t('moduleDetail.backToCourse')}
-      </Link>
+      </button>
 
       <PageHeader
         title={module.title}

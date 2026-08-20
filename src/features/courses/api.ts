@@ -15,6 +15,8 @@ export interface StudentListParams {
 export interface CreateCoursePayload {
   title: string
   description?: string
+  about?: string
+  targetAudience?: string
 }
 export type UpdateCoursePayload = Partial<CreateCoursePayload> & { active?: boolean }
 
