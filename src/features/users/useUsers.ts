@@ -53,7 +53,8 @@ export function useDeleteUser() {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
   return useMutation({
-    mutationFn: (id: string) => usersApi.remove(id),
+    mutationFn: ({ id, currentPassword }: { id: string; currentPassword?: string }) =>
+      usersApi.remove(id, currentPassword),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: USERS_KEY })
       toast.success(t('users.toastDeleted'))

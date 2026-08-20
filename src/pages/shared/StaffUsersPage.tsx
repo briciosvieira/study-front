@@ -2,6 +2,7 @@ import { KeyRound, MoreHorizontal, Plus, Power, PowerOff, Search, Trash2 } from 
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/features/auth/useAuth'
+import { AdminDeleteReauthDialog } from '@/features/users/AdminDeleteReauthDialog'
 import { ResetPasswordDialog } from '@/features/users/ResetPasswordDialog'
 import { UserForm } from '@/features/users/UserForm'
 import {
@@ -73,6 +74,14 @@ export function StaffUsersPage({ canManage }: { canManage: boolean }) {
     return canManage && target.id !== currentUser?.id
   }
 
+  // An ADMIN target can be deleted by another ADMIN (with reauthentication —
+  // see AdminDeleteReauthDialog); every other cross-actor/last-admin rule is
+  // enforced server-side. Self-delete is hidden here too, though the backend
+  // is the actual source of truth for that block.
+  function canDelete(target: User) {
+    return canManage && target.id !== currentUser?.id
+  }
+
   function renderActions(user: User) {
     return (
       <DropdownMenu>
@@ -108,7 +117,7 @@ export function StaffUsersPage({ canManage }: { canManage: boolean }) {
                 {t('users.activateUser')}
               </DropdownMenuItem>
             ))}
-          {canManage && user.role !== 'ADMIN' && (
+          {canDelete(user) && (
             <DropdownMenuItem onSelect={() => setDeleteTarget(user)}>
               <Trash2 size={14} className="text-danger" />
               {t('common.delete')}
@@ -267,14 +276,27 @@ export function StaffUsersPage({ canManage }: { canManage: boolean }) {
       {canManage && (
         <>
           <ConfirmDialog
-            open={!!deleteTarget}
+            open={!!deleteTarget && deleteTarget.role !== 'ADMIN'}
             onOpenChange={(open) => !open && setDeleteTarget(null)}
             title={t('users.deleteTitle', { name: deleteTarget?.name ?? '' })}
             description={t('users.deleteDescription')}
             isLoading={deleteUser.isPending}
             onConfirm={() =>
               deleteTarget &&
-              deleteUser.mutate(deleteTarget.id, { onSuccess: () => setDeleteTarget(null) })
+              deleteUser.mutate({ id: deleteTarget.id }, { onSuccess: () => setDeleteTarget(null) })
+            }
+          />
+          <AdminDeleteReauthDialog
+            open={!!deleteTarget && deleteTarget.role === 'ADMIN'}
+            onOpenChange={(open) => !open && setDeleteTarget(null)}
+            user={deleteTarget}
+            isLoading={deleteUser.isPending}
+            onConfirm={(currentPassword) =>
+              deleteTarget &&
+              deleteUser.mutate(
+                { id: deleteTarget.id, currentPassword },
+                { onSuccess: () => setDeleteTarget(null) },
+              )
             }
           />
           <ConfirmDialog

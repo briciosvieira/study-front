@@ -134,7 +134,7 @@ export function TemplateLibraryPage() {
                 </div>
                 <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
                   <span>{formatFileSize(template.fileSize)}</span>
-                  <span>{template.uploadedBy.name}</span>
+                  <span>{template.uploadedBy?.name ?? '—'}</span>
                 </div>
                 <div className="mt-3 flex justify-end gap-1">
                   <Button
@@ -199,7 +199,7 @@ export function TemplateLibraryPage() {
                       <td className="px-4 py-2.5 text-muted-foreground">
                         {formatFileSize(template.fileSize)}
                       </td>
-                      <td className="px-4 py-2.5 text-muted-foreground">{template.uploadedBy.name}</td>
+                      <td className="px-4 py-2.5 text-muted-foreground">{template.uploadedBy?.name ?? '—'}</td>
                       <td className="px-4 py-2.5 text-muted-foreground">
                         {new Date(template.createdAt).toLocaleDateString(language)}
                       </td>

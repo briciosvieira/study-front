@@ -14,9 +14,20 @@ export const ChangeRequiredPasswordPage = lazy(() =>
     default: m.ChangeRequiredPasswordPage,
   })),
 )
+export const PolicyRequiredPage = lazy(() =>
+  import('@/pages/auth/PolicyRequiredPage').then((m) => ({ default: m.PolicyRequiredPage })),
+)
 
 export const AdminCoursesPage = lazy(() =>
   import('@/pages/admin/CoursesPage').then((m) => ({ default: m.CoursesPage })),
+)
+export const AuditPage = lazy(() =>
+  import('@/pages/admin/AuditPage').then((m) => ({ default: m.AuditPage })),
+)
+export const ReactivationRequestsPage = lazy(() =>
+  import('@/pages/admin/ReactivationRequestsPage').then((m) => ({
+    default: m.ReactivationRequestsPage,
+  })),
 )
 export const AdminCourseDetailPage = lazy(() =>
   import('@/pages/admin/CourseDetailPage').then((m) => ({ default: m.CourseDetailPage })),
@@ -41,6 +52,9 @@ export const AdminTemplateLibraryPage = lazy(() =>
 )
 export const AdminProfilePage = lazy(() =>
   import('@/pages/admin/ProfilePage').then((m) => ({ default: m.ProfilePage })),
+)
+export const EmailBlocklistPage = lazy(() =>
+  import('@/pages/admin/EmailBlocklistPage').then((m) => ({ default: m.EmailBlocklistPage })),
 )
 
 export const InstructorCoursesPage = lazy(() =>

@@ -11,7 +11,9 @@ import {
   AdminModuleDetailPage,
   AdminProfilePage,
   AdminTemplateLibraryPage,
+  AuditPage,
   ChangeRequiredPasswordPage,
+  EmailBlocklistPage,
   InstructorCourseDetailPage,
   InstructorCoursesPage,
   InstructorModuleDetailPage,
@@ -21,7 +23,9 @@ import {
   LoginPage,
   MyCoursesPage,
   PdfViewerPage,
+  PolicyRequiredPage,
   QuizPage,
+  ReactivationRequestsPage,
   StudentCoursePage,
   StudentDetailPage,
   StudentProfilePage,
@@ -30,7 +34,9 @@ import {
   UsersPage,
   VideoViewerPage,
 } from './lazyPages'
+import { RequireAuditAccess } from './RequireAuditAccess'
 import { RequireAuth } from './RequireAuth'
+import { RequireReactivationAccess } from './RequireReactivationAccess'
 import { RequireRole } from './RequireRole'
 import { RootLayout } from './RootLayout'
 
@@ -52,6 +58,10 @@ export const router = createBrowserRouter([
           // RequireAuth for the redirect that sends users here while
           // mustChangePassword is true
           { path: '/change-required-password', element: <ChangeRequiredPasswordPage /> },
+
+          // reachable regardless of role while accessState is anything but
+          // POLICY_ACCEPTED / ACCOUNT_INACTIVE — see RequireAuth
+          { path: '/policy-required', element: <PolicyRequiredPage /> },
 
           // content viewers are reachable from any staff or student area,
           // so they live outside the role-gated subtrees below
@@ -75,6 +85,17 @@ export const router = createBrowserRouter([
                   { path: 'courses/:courseId', element: <AdminCourseDetailPage /> },
                   { path: 'courses/:courseId/modules/:moduleId', element: <AdminModuleDetailPage /> },
                   { path: 'template-library', element: <AdminTemplateLibraryPage /> },
+                  {
+                    element: <RequireAuditAccess />,
+                    children: [{ path: 'audit', element: <AuditPage /> }],
+                  },
+                  {
+                    element: <RequireReactivationAccess />,
+                    children: [
+                      { path: 'reactivation-requests', element: <ReactivationRequestsPage /> },
+                    ],
+                  },
+                  { path: 'email-blocklist', element: <EmailBlocklistPage /> },
                   { path: 'profile', element: <AdminProfilePage /> },
                 ],
               },
@@ -97,6 +118,16 @@ export const router = createBrowserRouter([
                   { path: 'template-library', element: <InstructorTemplateLibraryPage /> },
                   { path: 'users', element: <InstructorUsersPage /> },
                   { path: 'profile', element: <InstructorProfilePage /> },
+                  {
+                    element: <RequireAuditAccess />,
+                    children: [{ path: 'audit', element: <AuditPage /> }],
+                  },
+                  {
+                    element: <RequireReactivationAccess />,
+                    children: [
+                      { path: 'reactivation-requests', element: <ReactivationRequestsPage /> },
+                    ],
+                  },
                 ],
               },
             ],
@@ -111,6 +142,16 @@ export const router = createBrowserRouter([
                   { index: true, element: <MyCoursesPage /> },
                   { path: 'courses/:courseId', element: <StudentCoursePage /> },
                   { path: 'profile', element: <StudentProfilePage /> },
+                  {
+                    element: <RequireAuditAccess />,
+                    children: [{ path: 'audit', element: <AuditPage /> }],
+                  },
+                  {
+                    element: <RequireReactivationAccess />,
+                    children: [
+                      { path: 'reactivation-requests', element: <ReactivationRequestsPage /> },
+                    ],
+                  },
                 ],
               },
             ],

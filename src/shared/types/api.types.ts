@@ -1,5 +1,16 @@
 export type Role = 'ADMIN' | 'INSTRUCTOR' | 'STUDENT'
 export type ModuleType = 'PDF' | 'VIDEO' | 'QUIZ'
+export type Permission = 'VIEW_AUDIT_LOGS' | 'EXPORT_AUDIT_LOGS' | 'MANAGE_POLICY_REACTIVATION'
+
+export type AccountAccessState =
+  | 'ACCOUNT_INACTIVE'
+  | 'POLICY_PENDING'
+  | 'POLICY_REJECTED_RECOVERABLE'
+  | 'POLICY_REJECTED_EXPIRED'
+  | 'POLICY_REVIEW_HOLD'
+  | 'REACTIVATION_REQUESTED'
+  | 'PENDING_ADMIN_DECISION'
+  | 'POLICY_ACCEPTED'
 
 export interface User {
   id: string
@@ -10,6 +21,8 @@ export interface User {
   active: boolean
   avatarUrl: string | null
   mustChangePassword: boolean
+  accessState: AccountAccessState
+  permissions: Permission[]
   createdAt: string
 }
 
@@ -263,10 +276,137 @@ export interface TemplateLibraryFile {
   storageKey: string
   mimeType: string
   fileSize: number
-  uploadedById: string
-  uploadedBy: { id: string; name: string }
+  uploadedById: string | null
+  uploadedBy: { id: string; name: string } | null
   createdAt: string
   updatedAt: string
+}
+
+export type PolicyAcceptanceStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED'
+
+export interface PolicyVersion {
+  id: string
+  version: string
+  title: string
+  content: string
+  isActive: boolean
+  requiresReacceptance: boolean
+  publishedAt: string
+  createdAt: string
+}
+
+export interface UserPolicyAcceptance {
+  id: string
+  userId: string
+  policyVersionId: string
+  status: PolicyAcceptanceStatus
+  acceptedAt: string | null
+  rejectedAt: string | null
+  scheduledDeletionAt: string | null
+  deletionPausedAt: string | null
+  deletionRemainingSeconds: number | null
+  // consolidated-account review hold — see PolicyService.transitionToRejected
+  policyReviewStartedAt: string | null
+  policyReviewUntil: string | null
+  reactivationRequestedAt: string | null
+  reactivatedAt: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CurrentPolicyResponse {
+  policyVersion: PolicyVersion | null
+  acceptance: UserPolicyAcceptance | null
+  accessState: AccountAccessState
+  reconsiderationDays: number
+  reviewHoldDays: number
+  isEstablishedAccount: boolean
+}
+
+export interface AdminPolicyStatus {
+  currentPolicyVersion: PolicyVersion | null
+  acceptance:
+    | (UserPolicyAcceptance & { policyVersion: { version: string; title: string } })
+    | null
+}
+
+export interface ReactivationRequestEntry extends UserPolicyAcceptance {
+  user: {
+    id: string
+    name: string
+    email: string
+    role: Role
+    active: boolean
+    createdAt: string
+  }
+}
+
+export type AuditCategory =
+  | 'USER'
+  | 'AUTHENTICATION'
+  | 'SECURITY'
+  | 'POLICY'
+  | 'ADMINISTRATION'
+  | 'CONTENT'
+  | 'BLOCKLIST'
+  | 'SYSTEM'
+
+export type AuditSeverity = 'INFO' | 'WARNING' | 'HIGH' | 'CRITICAL'
+
+export interface AuditEvent {
+  id: string
+  eventType: string
+  category: AuditCategory
+  severity: AuditSeverity
+  actorUserId: string | null
+  actorName: string | null
+  targetUserId: string | null
+  targetName: string | null
+  targetEmailMasked: string | null
+  resourceType: string | null
+  resourceId: string | null
+  method: string | null
+  route: string | null
+  httpStatus: number | null
+  ipAddress: string | null
+  userAgent: string | null
+  requestId: string | null
+  metadata: Record<string, unknown> | null
+  createdAt: string
+}
+
+export interface SecurityIncident {
+  id: string
+  type: string
+  severity: AuditSeverity
+  userId: string | null
+  ipAddress: string | null
+  route: string | null
+  method: string | null
+  occurrenceCount: number
+  firstOccurredAt: string
+  lastOccurredAt: string
+  createdAt: string
+}
+
+export interface AuditNotification {
+  id: string
+  userId: string
+  incidentId: string
+  readAt: string | null
+  popupDismissedAt: string | null
+  createdAt: string
+  incident: SecurityIncident
+}
+
+export interface EmailBlocklistEntry {
+  id: string
+  emailHash: string
+  maskedEmail: string | null
+  reason: string
+  createdAt: string
+  removedAt: string | null
+  removedById: string | null
 }
 
 export interface ApiErrorBody {

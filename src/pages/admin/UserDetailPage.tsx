@@ -12,6 +12,8 @@ import { useDebouncedValue } from '@/shared/hooks/useDebouncedValue'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import { formatDate } from '@/shared/utils/formatDate'
 import type { Role, UserCourse } from '@/shared/types/api.types'
+import { UserAdminPermissionsCard } from '@/features/users/UserAdminPermissionsCard'
+import { UserPolicyStatusCard } from '@/features/users/UserPolicyStatusCard'
 import {
   useAddCoursesToUser,
   useAvailableCoursesForUser,
@@ -189,6 +191,11 @@ export function UserDetailPage({
             <p className="text-sm text-muted-foreground">{t('userDetail.coursesOnlyForStudents')}</p>
           </div>
         )}
+      </div>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <UserPolicyStatusCard userId={user.id} />
+        <UserAdminPermissionsCard user={user} />
       </div>
 
       <ConfirmDialog

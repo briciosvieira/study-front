@@ -2,9 +2,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { apiErrorMessage } from '@/shared/api/axiosClient'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
+import type { Permission } from '@/shared/types/api.types'
 import { usersApi } from './api'
 
 const userKey = (id: string) => ['users', id]
+const userPolicyStatusKey = (id: string) => ['users', id, 'policy-status']
 const userCoursesKey = (id: string) => ['users', id, 'courses']
 const userAvailableCoursesKey = (id: string, search: string) => [
   'users',
@@ -21,6 +23,29 @@ const courseAvailableStudentsKeyPrefix = (courseId: string) => [
 
 export function useUser(id: string) {
   return useQuery({ queryKey: userKey(id), queryFn: () => usersApi.get(id), enabled: !!id })
+}
+
+export function useUserPolicyStatus(id: string) {
+  return useQuery({
+    queryKey: userPolicyStatusKey(id),
+    queryFn: () => usersApi.getPolicyStatus(id),
+    enabled: !!id,
+  })
+}
+
+export function useSetUserPermission() {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  return useMutation({
+    mutationFn: ({ id, permission, grant }: { id: string; permission: Permission; grant: boolean }) =>
+      usersApi.setPermission(id, permission, grant),
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries({ queryKey: userKey(id) })
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+      toast.success(t('users.toastPermissionsUpdated'))
+    },
+    onError: (error) => toast.error(apiErrorMessage(error, t('users.toastPermissionError'))),
+  })
 }
 
 export function useUserCourses(id: string) {

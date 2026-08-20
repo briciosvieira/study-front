@@ -1,5 +1,13 @@
 import { api } from '@/shared/api/axiosClient'
-import type { PaginatedResult, Role, StudentOverview, User, UserCourse } from '@/shared/types/api.types'
+import type {
+  AdminPolicyStatus,
+  PaginatedResult,
+  Permission,
+  Role,
+  StudentOverview,
+  User,
+  UserCourse,
+} from '@/shared/types/api.types'
 
 export interface CreateUserPayload {
   name: string
@@ -25,9 +33,14 @@ export const usersApi = {
   create: (payload: CreateUserPayload) => api.post<User>('/users', payload).then((r) => r.data),
   update: (id: string, payload: UpdateUserPayload) =>
     api.patch<User>(`/users/${id}`, payload).then((r) => r.data),
-  remove: (id: string) => api.delete(`/users/${id}`),
+  remove: (id: string, currentPassword?: string) =>
+    api.delete(`/users/${id}`, currentPassword ? { data: { currentPassword } } : undefined),
   resetPassword: (id: string, newPassword: string) =>
     api.post(`/users/${id}/reset-password`, { newPassword }).then((r) => r.data),
+  getPolicyStatus: (id: string) =>
+    api.get<AdminPolicyStatus>(`/users/${id}/policy-status`).then((r) => r.data),
+  setPermission: (id: string, permission: Permission, grant: boolean) =>
+    api.patch<User>(`/users/${id}/permissions`, { permission, grant }).then((r) => r.data),
 
   getCourses: (id: string) => api.get<UserCourse[]>(`/users/${id}/courses`).then((r) => r.data),
   getAvailableCourses: (id: string, search?: string) =>

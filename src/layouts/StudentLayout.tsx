@@ -1,4 +1,5 @@
 import { Link, Outlet } from 'react-router-dom'
+import { NotificationBell } from '@/features/audit/NotificationBell'
 import { AppBrand } from '@/shared/components/AppBrand'
 import { LanguageSwitcher } from '@/shared/components/LanguageSwitcher'
 import { ThemeSwitcher } from '@/shared/components/ThemeSwitcher'
@@ -24,6 +25,7 @@ export function StudentLayout() {
             </Link>
           </div>
           <div className="flex shrink-0 items-center gap-1">
+            <NotificationBell />
             <LanguageSwitcher compact />
             <ThemeSwitcher compact />
             <div className="ml-1">

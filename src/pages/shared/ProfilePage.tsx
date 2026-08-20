@@ -1,6 +1,7 @@
 import { ProfileAvatarSection } from '@/features/profile/ProfileAvatarSection'
 import { ProfileInfoForm } from '@/features/profile/ProfileInfoForm'
 import { ProfilePasswordForm } from '@/features/profile/ProfilePasswordForm'
+import { ProfilePolicySection } from '@/features/profile/ProfilePolicySection'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 
 export function ProfilePage() {
@@ -26,6 +27,13 @@ export function ProfilePage() {
         <h2 className="text-sm font-semibold text-foreground">{t('profile.security')}</h2>
         <div className="mt-4">
           <ProfilePasswordForm />
+        </div>
+      </div>
+
+      <div className="mt-6 rounded-xl border border-border bg-card p-5 sm:p-6">
+        <h2 className="text-sm font-semibold text-foreground">{t('policy.profileSectionTitle')}</h2>
+        <div className="mt-4">
+          <ProfilePolicySection />
         </div>
       </div>
     </div>

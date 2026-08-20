@@ -3,6 +3,7 @@ import { LogOut, Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth, useLogout } from '@/features/auth/useAuth'
+import { NotificationBell } from '@/features/audit/NotificationBell'
 import { AppBrand } from '@/shared/components/AppBrand'
 import { LanguageSwitcher } from '@/shared/components/LanguageSwitcher'
 import { ThemeSwitcher } from '@/shared/components/ThemeSwitcher'
@@ -41,13 +42,16 @@ export function DashboardLayout({ areaLabel, navItems }: { areaLabel: string; na
       >
         <div className="flex items-center justify-between gap-2 px-5 py-5">
           <AppBrand />
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-sidebar-foreground/60 hover:bg-sidebar-foreground/10 lg:hidden"
-            aria-label={t('common.close')}
-          >
-            <X size={18} />
-          </button>
+          <div className="flex items-center gap-1">
+            <NotificationBell />
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-sidebar-foreground/60 hover:bg-sidebar-foreground/10 lg:hidden"
+              aria-label={t('common.close')}
+            >
+              <X size={18} />
+            </button>
+          </div>
         </div>
 
         <p className="px-5 pb-2 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/40">
@@ -108,6 +112,9 @@ export function DashboardLayout({ areaLabel, navItems }: { areaLabel: string; na
             <Menu size={20} />
           </button>
           <AppBrand size="sm" />
+          <div className="ml-auto">
+            <NotificationBell />
+          </div>
         </header>
 
         <main className="flex-1 overflow-y-auto p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:p-8">
