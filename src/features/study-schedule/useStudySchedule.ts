@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { apiErrorMessage } from '@/shared/api/axiosClient'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
-import { studyScheduleApi } from './api'
+import { studyScheduleApi, type StartStudySessionPayload } from './api'
 
 const scheduleKey = (courseId: string) => ['study-schedule', courseId]
 
@@ -18,7 +18,7 @@ export function useStartStudySession(courseId: string) {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
   return useMutation({
-    mutationFn: (moduleId: string) => studyScheduleApi.startSession(courseId, moduleId),
+    mutationFn: (payload: StartStudySessionPayload) => studyScheduleApi.startSession(courseId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: scheduleKey(courseId) })
       toast.success(t('studySchedule.toastStarted'))

@@ -28,7 +28,7 @@ export function QuestionList({
       {questions.map((question, index) => (
         <div key={question.id} className="rounded-lg border border-border bg-card p-4">
           <div className="flex items-start justify-between gap-4">
-            <p className="text-sm font-medium text-card-foreground">
+            <p className="whitespace-pre-wrap text-sm font-medium text-card-foreground">
               {index + 1}. {question.statement}
             </p>
             <div className="flex shrink-0 gap-1">
@@ -57,7 +57,9 @@ export function QuestionList({
               <li
                 key={option.id}
                 className={
-                  option.correct ? 'text-sm font-medium text-success' : 'text-sm text-muted-foreground'
+                  option.correct
+                    ? 'whitespace-pre-wrap text-sm font-medium text-success'
+                    : 'whitespace-pre-wrap text-sm text-muted-foreground'
                 }
               >
                 {option.letter}) {option.text}

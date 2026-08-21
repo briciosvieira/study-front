@@ -232,7 +232,9 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
         </span>
       </div>
 
-      <h2 className="mb-4 text-lg font-medium text-foreground">{currentQuestion.statement}</h2>
+      <h2 className="mb-4 whitespace-pre-wrap text-lg font-medium text-foreground">
+        {currentQuestion.statement}
+      </h2>
 
       <div className="flex flex-col gap-2">
         {currentQuestion.options.map((option) => {
@@ -244,8 +246,8 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
               aria-pressed={selected}
               className={
                 selected
-                  ? 'rounded-lg border-2 border-primary bg-accent px-4 py-3 text-left text-sm text-card-foreground'
-                  : 'rounded-lg border border-border bg-card px-4 py-3 text-left text-sm text-card-foreground transition-colors hover:border-primary hover:bg-accent'
+                  ? 'whitespace-pre-wrap rounded-lg border-2 border-primary bg-accent px-4 py-3 text-left text-sm text-card-foreground'
+                  : 'whitespace-pre-wrap rounded-lg border border-border bg-card px-4 py-3 text-left text-sm text-card-foreground transition-colors hover:border-primary hover:bg-accent'
               }
             >
               <span className="mr-2 font-semibold">{option.letter})</span>

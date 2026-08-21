@@ -26,7 +26,7 @@ export function StartStudyDialog({
 
   async function handleSubmit() {
     if (!moduleId) return
-    await startSession.mutateAsync(moduleId)
+    await startSession.mutateAsync({ moduleId })
     onOpenChange(false)
   }
 

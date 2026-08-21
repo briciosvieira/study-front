@@ -11,7 +11,7 @@ export function RecommendationList({
   disabled,
 }: {
   recommendations: StudyRecommendation[]
-  onStudy: (moduleId: string) => void
+  onStudy: (recommendation: StudyRecommendation) => void
   disabled?: boolean
 }) {
   const { t } = useTranslation()
@@ -31,6 +31,10 @@ export function RecommendationList({
               ? t('studySchedule.reason.LONG_TIME_NO_STUDY', { days: rec.daysSinceLastStudy ?? 0 })
               : t(`studySchedule.reason.${rec.reason}`)
 
+        // When a specific PDF/VIDEO was resolved, that's the actual thing to
+        // study today — the module stays visible as context underneath it.
+        const primaryTitle = rec.resourceTitle ?? rec.title
+
         return (
           <div
             key={rec.moduleId}
@@ -41,8 +45,11 @@ export function RecommendationList({
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-secondary-foreground">
                   <Icon size={15} />
                 </span>
-                <p className="min-w-0 truncate text-sm font-medium text-card-foreground">{rec.title}</p>
+                <p className="min-w-0 truncate text-sm font-medium text-card-foreground">{primaryTitle}</p>
               </div>
+              {rec.resourceTitle && (
+                <p className="mt-1 truncate text-xs text-muted-foreground">{rec.title}</p>
+              )}
               <p className="mt-2 text-xs text-muted-foreground">{reasonText}</p>
             </div>
             <Button
@@ -50,7 +57,7 @@ export function RecommendationList({
               variant="secondary"
               className="mt-3"
               disabled={disabled}
-              onClick={() => onStudy(rec.moduleId)}
+              onClick={() => onStudy(rec)}
             >
               {t('studySchedule.recommendationStudyButton')}
             </Button>

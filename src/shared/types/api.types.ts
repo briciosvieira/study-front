@@ -205,6 +205,8 @@ export interface StudySession {
   userId: string
   courseId: string
   moduleId: string
+  pdfItemId: string | null
+  videoItemId: string | null
   status: StudySessionStatus
   startedAt: string
   endedAt: string | null
@@ -259,6 +261,11 @@ export interface StudyRecommendation {
   daysSinceLastStudy: number | null
   quizPercentage: number | null
   studyPriority: number
+  // The individual PDF/VIDEO to study within the module — null for QUIZ or
+  // a PDF/VIDEO module with no items yet.
+  resourceType: 'PDF' | 'VIDEO' | null
+  resourceId: string | null
+  resourceTitle: string | null
 }
 
 export interface StudySchedule {

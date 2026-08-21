@@ -1,19 +1,22 @@
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { PageSpinner } from '@/shared/components/Spinner'
 import { Button } from '@/shared/components/ui/button'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
-import type { CourseModule } from '@/shared/types/api.types'
+import type { CourseModule, StudyRecommendation } from '@/shared/types/api.types'
 import { ActiveSessionCard } from './ActiveSessionCard'
 import { DailyHistory } from './DailyHistory'
 import { formatStudyDuration } from './formatStudyDuration'
 import { RecommendationList } from './RecommendationList'
 import { StartStudyDialog } from './StartStudyDialog'
-import { useStudySchedule } from './useStudySchedule'
+import { useStartStudySession, useStudySchedule } from './useStudySchedule'
 
 export function CourseScheduleTab({ courseId, modules }: { courseId: string; modules: CourseModule[] }) {
   const { t, language } = useTranslation()
+  const navigate = useNavigate()
   const { data: schedule, isLoading } = useStudySchedule(courseId)
+  const startSession = useStartStudySession(courseId)
   const [startOpen, setStartOpen] = useState(false)
   const [startModuleId, setStartModuleId] = useState<string | undefined>(undefined)
 
@@ -25,6 +28,24 @@ export function CourseScheduleTab({ courseId, modules }: { courseId: string; mod
   function openStartDialog(moduleId?: string) {
     setStartModuleId(moduleId)
     setStartOpen(true)
+  }
+
+  // A recommendation resolved to a specific PDF/VIDEO opens that resource
+  // directly — no need to make the user pick the module again in the
+  // dialog. QUIZ (or a PDF/VIDEO module with no items yet) keeps the
+  // existing module-picker flow unchanged.
+  async function handleStudyRecommendation(rec: StudyRecommendation) {
+    if (rec.resourceType === 'PDF' && rec.resourceId) {
+      await startSession.mutateAsync({ moduleId: rec.moduleId, pdfItemId: rec.resourceId })
+      navigate(`/modules/${rec.moduleId}/pdf/${rec.resourceId}`)
+      return
+    }
+    if (rec.resourceType === 'VIDEO' && rec.resourceId) {
+      await startSession.mutateAsync({ moduleId: rec.moduleId, videoItemId: rec.resourceId })
+      navigate(`/modules/${rec.moduleId}/video/${rec.resourceId}`)
+      return
+    }
+    openStartDialog(rec.moduleId)
   }
 
   return (
@@ -68,8 +89,8 @@ export function CourseScheduleTab({ courseId, modules }: { courseId: string; mod
         <p className="mb-3 text-xs text-muted-foreground">{t('studySchedule.recommendationsSubtitle')}</p>
         <RecommendationList
           recommendations={schedule.recommendations}
-          onStudy={openStartDialog}
-          disabled={hasActiveSession}
+          onStudy={handleStudyRecommendation}
+          disabled={hasActiveSession || startSession.isPending}
         />
       </div>
 
