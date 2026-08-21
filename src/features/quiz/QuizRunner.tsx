@@ -10,6 +10,7 @@ import { Progress } from '@/shared/components/ui/progress'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import type { QuizAttemptState } from '@/shared/types/api.types'
 import { attemptsApi } from './api'
+import { normalizeQuizDisplayText } from './normalizeQuizText'
 import { quizReducer } from './quizReducer'
 import { QuizResult } from './QuizResult'
 import { useQuestionTimer } from './useQuizTimer'
@@ -203,7 +204,7 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
   }
 
   return (
-    <div className="mx-auto max-w-xl">
+    <div className="mx-auto max-w-xl lg:max-w-5xl xl:max-w-6xl">
       <div className="mb-4 flex items-start gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -233,7 +234,7 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
       </div>
 
       <h2 className="mb-4 whitespace-pre-wrap text-lg font-medium text-foreground">
-        {currentQuestion.statement}
+        {normalizeQuizDisplayText(currentQuestion.statement)}
       </h2>
 
       <div className="flex flex-col gap-2">
@@ -251,7 +252,7 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
               }
             >
               <span className="mr-2 font-semibold">{option.letter})</span>
-              {option.text}
+              {normalizeQuizDisplayText(option.text)}
             </button>
           )
         })}

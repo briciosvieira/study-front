@@ -10,13 +10,21 @@ import { Label } from '@/shared/components/ui/label'
 import { Textarea } from '@/shared/components/ui/textarea'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import type { Question } from '@/shared/types/api.types'
+import { normalizeQuizDisplayText } from './normalizeQuizText'
 import { useCreateQuestion, useUpdateQuestion } from './useQuestions'
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']
 
+// Normalized here too — an older question with a literal \n should show its
+// real line break the moment it's opened for editing, not just when
+// displayed read-only.
 function toFormOptions(question?: Question) {
   if (question?.options.length) {
-    return question.options.map((o) => ({ letter: o.letter, text: o.text, correct: !!o.correct }))
+    return question.options.map((o) => ({
+      letter: o.letter,
+      text: normalizeQuizDisplayText(o.text),
+      correct: !!o.correct,
+    }))
   }
   return [
     { letter: 'A', text: '', correct: true },
@@ -74,7 +82,7 @@ export function QuestionForm({
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     values: {
-      statement: question?.statement ?? '',
+      statement: question ? normalizeQuizDisplayText(question.statement) : '',
       timeLimitSec: question?.timeLimitSec ?? 205,
       options: toFormOptions(question),
     },

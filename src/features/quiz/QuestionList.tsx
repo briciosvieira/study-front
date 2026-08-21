@@ -3,6 +3,7 @@ import { EmptyState } from '@/shared/components/EmptyState'
 import { Button } from '@/shared/components/ui/button'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import type { Question } from '@/shared/types/api.types'
+import { normalizeQuizDisplayText } from './normalizeQuizText'
 import { useDeleteQuestion } from './useQuestions'
 
 export function QuestionList({
@@ -29,7 +30,7 @@ export function QuestionList({
         <div key={question.id} className="rounded-lg border border-border bg-card p-4">
           <div className="flex items-start justify-between gap-4">
             <p className="whitespace-pre-wrap text-sm font-medium text-card-foreground">
-              {index + 1}. {question.statement}
+              {index + 1}. {normalizeQuizDisplayText(question.statement)}
             </p>
             <div className="flex shrink-0 gap-1">
               <Button
@@ -62,7 +63,7 @@ export function QuestionList({
                     : 'whitespace-pre-wrap text-sm text-muted-foreground'
                 }
               >
-                {option.letter}) {option.text}
+                {option.letter}) {normalizeQuizDisplayText(option.text)}
               </li>
             ))}
           </ul>
