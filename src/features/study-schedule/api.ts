@@ -1,5 +1,5 @@
 import { api } from '@/shared/api/axiosClient'
-import type { StudySchedule, StudySession } from '@/shared/types/api.types'
+import type { StudyResource, StudySchedule, StudySession } from '@/shared/types/api.types'
 
 export interface StartStudySessionPayload {
   moduleId: string
@@ -10,6 +10,9 @@ export interface StartStudySessionPayload {
 export const studyScheduleApi = {
   getSchedule: (courseId: string) =>
     api.get<StudySchedule>(`/courses/${courseId}/study-schedule`).then((r) => r.data),
+
+  getStudyResources: (courseId: string) =>
+    api.get<StudyResource[]>(`/courses/${courseId}/study-resources`).then((r) => r.data),
 
   startSession: (courseId: string, payload: StartStudySessionPayload) =>
     api.post<StudySession>(`/courses/${courseId}/study-sessions`, payload).then((r) => r.data),

@@ -31,9 +31,11 @@ export function RecommendationList({
               ? t('studySchedule.reason.LONG_TIME_NO_STUDY', { days: rec.daysSinceLastStudy ?? 0 })
               : t(`studySchedule.reason.${rec.reason}`)
 
-        // When a specific PDF/VIDEO was resolved, that's the actual thing to
-        // study today — the module stays visible as context underneath it.
+        // The actual content to study today — an individual PDF/VIDEO, or
+        // the QUIZ module itself (module and resource are the same thing
+        // there, so no separate context line is shown in that case).
         const primaryTitle = rec.resourceTitle ?? rec.title
+        const showModuleContext = !!rec.resourceTitle && rec.resourceTitle !== rec.title
 
         return (
           <div
@@ -45,9 +47,14 @@ export function RecommendationList({
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-secondary-foreground">
                   <Icon size={15} />
                 </span>
-                <p className="min-w-0 truncate text-sm font-medium text-card-foreground">{primaryTitle}</p>
+                <div className="min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                    {t(`studySchedule.resourceType.${rec.type}`)}
+                  </p>
+                  <p className="truncate text-sm font-medium text-card-foreground">{primaryTitle}</p>
+                </div>
               </div>
-              {rec.resourceTitle && (
+              {showModuleContext && (
                 <p className="mt-1 truncate text-xs text-muted-foreground">{rec.title}</p>
               )}
               <p className="mt-2 text-xs text-muted-foreground">{reasonText}</p>

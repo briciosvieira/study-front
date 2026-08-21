@@ -4,36 +4,31 @@ import { useNavigate } from 'react-router-dom'
 import { PageSpinner } from '@/shared/components/Spinner'
 import { Button } from '@/shared/components/ui/button'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
-import type { CourseModule, StudyRecommendation } from '@/shared/types/api.types'
+import type { StudyRecommendation } from '@/shared/types/api.types'
 import { ActiveSessionCard } from './ActiveSessionCard'
 import { DailyHistory } from './DailyHistory'
 import { formatStudyDuration } from './formatStudyDuration'
 import { RecommendationList } from './RecommendationList'
 import { StartStudyDialog } from './StartStudyDialog'
-import { useStartStudySession, useStudySchedule } from './useStudySchedule'
+import { useStartStudySession, useStudyResources, useStudySchedule } from './useStudySchedule'
 
-export function CourseScheduleTab({ courseId, modules }: { courseId: string; modules: CourseModule[] }) {
+export function CourseScheduleTab({ courseId }: { courseId: string }) {
   const { t, language } = useTranslation()
   const navigate = useNavigate()
   const { data: schedule, isLoading } = useStudySchedule(courseId)
+  const { data: resources } = useStudyResources(courseId)
   const startSession = useStartStudySession(courseId)
   const [startOpen, setStartOpen] = useState(false)
-  const [startModuleId, setStartModuleId] = useState<string | undefined>(undefined)
 
   if (isLoading) return <PageSpinner />
   if (!schedule) return null
 
   const hasActiveSession = !!schedule.activeSession
 
-  function openStartDialog(moduleId?: string) {
-    setStartModuleId(moduleId)
-    setStartOpen(true)
-  }
-
-  // A recommendation resolved to a specific PDF/VIDEO opens that resource
-  // directly — no need to make the user pick the module again in the
-  // dialog. QUIZ (or a PDF/VIDEO module with no items yet) keeps the
-  // existing module-picker flow unchanged.
+  // A recommendation always resolves to real content (individual PDF/VIDEO,
+  // or the QUIZ module itself) — clicking "Estudar" opens it directly, no
+  // extra picker step. The dialog fallback only fires for the edge case of
+  // a PDF/VIDEO module with no items at all yet.
   async function handleStudyRecommendation(rec: StudyRecommendation) {
     if (rec.resourceType === 'PDF' && rec.resourceId) {
       await startSession.mutateAsync({ moduleId: rec.moduleId, pdfItemId: rec.resourceId })
@@ -45,7 +40,12 @@ export function CourseScheduleTab({ courseId, modules }: { courseId: string; mod
       navigate(`/modules/${rec.moduleId}/video/${rec.resourceId}`)
       return
     }
-    openStartDialog(rec.moduleId)
+    if (rec.resourceType === 'QUIZ' && rec.resourceId) {
+      await startSession.mutateAsync({ moduleId: rec.moduleId })
+      navigate(`/modules/${rec.moduleId}/quiz`)
+      return
+    }
+    setStartOpen(true)
   }
 
   return (
@@ -53,8 +53,8 @@ export function CourseScheduleTab({ courseId, modules }: { courseId: string; mod
       {schedule.activeSession ? (
         <ActiveSessionCard courseId={courseId} activeSession={schedule.activeSession} />
       ) : (
-        modules.length > 0 && (
-          <Button onClick={() => openStartDialog()}>
+        !!resources?.length && (
+          <Button onClick={() => setStartOpen(true)}>
             <Plus size={16} />
             {t('studySchedule.startButton')}
           </Button>
@@ -99,14 +99,7 @@ export function CourseScheduleTab({ courseId, modules }: { courseId: string; mod
         <DailyHistory history={schedule.history} language={language} />
       </div>
 
-      <StartStudyDialog
-        key={startModuleId ?? 'default'}
-        open={startOpen}
-        onOpenChange={setStartOpen}
-        courseId={courseId}
-        modules={modules}
-        defaultModuleId={startModuleId}
-      />
+      <StartStudyDialog open={startOpen} onOpenChange={setStartOpen} courseId={courseId} />
     </div>
   )
 }

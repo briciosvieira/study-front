@@ -38,7 +38,7 @@ export function ActiveSessionCard({
             {t('studySchedule.activeSessionTitle')}
           </p>
           <p className="mt-1 truncate text-sm text-foreground">
-            {activeSession.moduleTitle}
+            {activeSession.resourceTitle}
             {isOtherCourse && (
               <span className="text-muted-foreground"> · {activeSession.courseTitle}</span>
             )}
@@ -58,7 +58,7 @@ export function ActiveSessionCard({
         <p className="mt-2 text-xs text-muted-foreground">
           {t('studySchedule.activeSessionOtherCourseWarning', {
             course: activeSession.courseTitle,
-            module: activeSession.moduleTitle,
+            module: activeSession.resourceTitle,
           })}
         </p>
       )}

@@ -152,7 +152,7 @@ export function StaffCourseDetailPage({ basePath, canDelete }: { basePath: strin
         </TabsContent>
 
         <TabsContent value="schedule" className="pt-6">
-          <CourseScheduleTab courseId={courseId} modules={modules ?? []} />
+          <CourseScheduleTab courseId={courseId} />
         </TabsContent>
       </Tabs>
 

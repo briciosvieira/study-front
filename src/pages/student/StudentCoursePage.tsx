@@ -95,7 +95,7 @@ export function StudentCoursePage() {
         </TabsContent>
 
         <TabsContent value="schedule" className="pt-6">
-          <CourseScheduleTab courseId={courseId} modules={modules ?? []} />
+          <CourseScheduleTab courseId={courseId} />
         </TabsContent>
       </Tabs>
     </div>

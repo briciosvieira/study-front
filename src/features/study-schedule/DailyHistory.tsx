@@ -30,13 +30,13 @@ export function DailyHistory({ history, language }: { history: StudyDayGroup[]; 
           </div>
           <div className="mt-3 space-y-2">
             {day.sessions.map((session) => {
-              const Icon = TYPE_ICON[session.moduleType]
+              const Icon = TYPE_ICON[session.resourceType ?? session.moduleType]
               return (
                 <div key={session.id} className="flex items-center gap-2.5 text-sm">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
                     <Icon size={13} />
                   </span>
-                  <span className="min-w-0 flex-1 truncate text-foreground">{session.moduleTitle}</span>
+                  <span className="min-w-0 flex-1 truncate text-foreground">{session.resourceTitle}</span>
                   <span className="shrink-0 text-xs text-muted-foreground">
                     {formatStudyDuration(session.durationSeconds ?? 0)}
                   </span>

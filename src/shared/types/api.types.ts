@@ -221,6 +221,10 @@ export interface ActiveStudySession {
   courseId: string
   courseTitle: string
   startedAt: string
+  // The actual content being studied — falls back to the module itself for
+  // older sessions with no resolved item (resourceType null in that case).
+  resourceType: 'PDF' | 'VIDEO' | 'QUIZ' | null
+  resourceTitle: string
 }
 
 export interface StudyDaySession {
@@ -231,6 +235,16 @@ export interface StudyDaySession {
   startedAt: string
   endedAt: string | null
   durationSeconds: number | null
+  resourceType: 'PDF' | 'VIDEO' | 'QUIZ' | null
+  resourceTitle: string
+}
+
+export interface StudyResource {
+  resourceType: 'PDF' | 'VIDEO' | 'QUIZ'
+  resourceId: string
+  resourceTitle: string
+  moduleId: string
+  moduleTitle: string
 }
 
 export interface StudyDayGroup {
@@ -261,9 +275,9 @@ export interface StudyRecommendation {
   daysSinceLastStudy: number | null
   quizPercentage: number | null
   studyPriority: number
-  // The individual PDF/VIDEO to study within the module — null for QUIZ or
-  // a PDF/VIDEO module with no items yet.
-  resourceType: 'PDF' | 'VIDEO' | null
+  // The actual studyable unit — an individual PDF/VIDEO, or the QUIZ module
+  // itself. Null only for a PDF/VIDEO module with no items yet.
+  resourceType: 'PDF' | 'VIDEO' | 'QUIZ' | null
   resourceId: string | null
   resourceTitle: string | null
 }

@@ -14,6 +14,16 @@ export function useStudySchedule(courseId: string) {
   })
 }
 
+// Feeds the "Iniciar sessão de estudo" picker — individual PDFs/videos and
+// quiz modules, never the bare module/folder.
+export function useStudyResources(courseId: string) {
+  return useQuery({
+    queryKey: ['study-resources', courseId],
+    queryFn: () => studyScheduleApi.getStudyResources(courseId),
+    enabled: !!courseId,
+  })
+}
+
 export function useStartStudySession(courseId: string) {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
