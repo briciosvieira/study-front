@@ -5,6 +5,7 @@ import { CourseOverview, type CourseContentTab } from '@/features/courses/Course
 import { useCourse } from '@/features/courses/useCourses'
 import { useModules } from '@/features/modules/useModules'
 import { CourseScheduleTab } from '@/features/study-schedule/CourseScheduleTab'
+import { CourseStudyTreeTab } from '@/features/study-tree/CourseStudyTreeTab'
 import { EmptyState } from '@/shared/components/EmptyState'
 import { PageSpinner } from '@/shared/components/Spinner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs'
@@ -14,7 +15,7 @@ import { naturalSortByTitle } from '@/shared/utils/naturalSort'
 import type { CourseModule } from '@/shared/types/api.types'
 import { StudentModuleSection } from './StudentModuleSection'
 
-const TAB_VALUES = ['overview', 'pdf', 'videos', 'quiz', 'schedule'] as const
+const TAB_VALUES = ['overview', 'pdf', 'videos', 'quiz', 'schedule', 'tree'] as const
 
 export function StudentCoursePage() {
   const { t } = useTranslation()
@@ -70,6 +71,7 @@ export function StudentCoursePage() {
           <TabsTrigger value="videos">{t('courseDetail.tabVideos')}</TabsTrigger>
           <TabsTrigger value="quiz">{t('courseDetail.tabQuiz')}</TabsTrigger>
           <TabsTrigger value="schedule">{t('courseDetail.tabSchedule')}</TabsTrigger>
+          <TabsTrigger value="tree">{t('courseDetail.tabTree')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="pt-6">
@@ -96,6 +98,10 @@ export function StudentCoursePage() {
 
         <TabsContent value="schedule" className="pt-6">
           <CourseScheduleTab courseId={courseId} />
+        </TabsContent>
+
+        <TabsContent value="tree" className="pt-6">
+          <CourseStudyTreeTab courseId={courseId} canManage={false} />
         </TabsContent>
       </Tabs>
     </div>

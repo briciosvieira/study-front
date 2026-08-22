@@ -16,6 +16,7 @@ function AppToaster() {
   return (
     <Toaster
       richColors
+      closeButton
       position="top-right"
       theme={toSonnerTheme(theme)}
       style={

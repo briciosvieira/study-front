@@ -9,6 +9,7 @@ import { ModuleCard } from '@/features/modules/ModuleCard'
 import { ModuleForm } from '@/features/modules/ModuleForm'
 import { useDeleteModule, useModules } from '@/features/modules/useModules'
 import { CourseScheduleTab } from '@/features/study-schedule/CourseScheduleTab'
+import { CourseStudyTreeTab } from '@/features/study-tree/CourseStudyTreeTab'
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog'
 import { EmptyState } from '@/shared/components/EmptyState'
 import { PageHeader } from '@/shared/components/PageHeader'
@@ -21,7 +22,7 @@ import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import { naturalSortByTitle } from '@/shared/utils/naturalSort'
 import type { CourseModule, ModuleType } from '@/shared/types/api.types'
 
-const TAB_VALUES = ['overview', 'pdf', 'videos', 'quiz', 'schedule'] as const
+const TAB_VALUES = ['overview', 'pdf', 'videos', 'quiz', 'schedule', 'tree'] as const
 
 export function StaffCourseDetailPage({ basePath, canDelete }: { basePath: string; canDelete: boolean }) {
   const { t } = useTranslation()
@@ -107,6 +108,7 @@ export function StaffCourseDetailPage({ basePath, canDelete }: { basePath: strin
           <TabsTrigger value="videos">{t('courseDetail.tabVideos')}</TabsTrigger>
           <TabsTrigger value="quiz">{t('courseDetail.tabQuiz')}</TabsTrigger>
           <TabsTrigger value="schedule">{t('courseDetail.tabSchedule')}</TabsTrigger>
+          <TabsTrigger value="tree">{t('courseDetail.tabTree')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="pt-6">
@@ -153,6 +155,10 @@ export function StaffCourseDetailPage({ basePath, canDelete }: { basePath: strin
 
         <TabsContent value="schedule" className="pt-6">
           <CourseScheduleTab courseId={courseId} />
+        </TabsContent>
+
+        <TabsContent value="tree" className="pt-6">
+          <CourseStudyTreeTab courseId={courseId} canManage={canDelete} />
         </TabsContent>
       </Tabs>
 

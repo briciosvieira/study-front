@@ -430,6 +430,47 @@ export interface EmailBlocklistEntry {
   removedById: string | null
 }
 
+export interface StudyTreeLeafView {
+  id: string
+  title: string
+  order: number
+  isLeaf: true
+  checked: boolean
+  checkedAt: string | null
+  expiresAt: string | null
+}
+
+export interface StudyTreeGroupView {
+  id: string
+  title: string
+  order: number
+  isLeaf: false
+  children: StudyTreeNodeView[]
+}
+
+export type StudyTreeNodeView = StudyTreeLeafView | StudyTreeGroupView
+
+export interface StudyTreeData {
+  id: string
+  createdAt: string
+  createdBy: { id: string; name: string } | null
+  nodeCount: number
+  roots: StudyTreeNodeView[]
+}
+
+export interface StudyTreeImportResult {
+  treeId: string
+  nodeCount: number
+  rootCount: number
+  leafCount: number
+}
+
+export interface StudyTreeCheckResult {
+  checked: boolean
+  checkedAt?: string | null
+  expiresAt?: string | null
+}
+
 export interface ApiErrorBody {
   success: false
   statusCode: number
