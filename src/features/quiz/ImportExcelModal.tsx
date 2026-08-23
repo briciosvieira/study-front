@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { apiErrorMessage } from '@/shared/api/axiosClient'
 import { Button } from '@/shared/components/ui/button'
@@ -34,6 +35,15 @@ export function ImportExcelModal({
     queryClient.invalidateQueries({ queryKey: ['questions', moduleId] })
   }
 
+  // Diagnostic only — never logs the file contents, Authorization header, or
+  // any token. Lets the full backend reason/stage show up in DevTools
+  // instead of only the friendly toast/modal message.
+  useEffect(() => {
+    if (status?.status === 'error') {
+      console.error('[QUIZ IMPORT] job failed:', { reason: status.reason })
+    }
+  }, [status?.status, status?.reason])
+
   async function handleSubmit() {
     if (!file) return
     setIsSubmitting(true)
@@ -41,6 +51,13 @@ export function ImportExcelModal({
       const { jobId } = await quizImportApi.import(moduleId, file)
       setJobId(jobId)
     } catch (error) {
+      console.error('[QUIZ IMPORT] erro completo:', error)
+      if (axios.isAxiosError(error)) {
+        console.error('[QUIZ IMPORT] response:', {
+          status: error.response?.status,
+          data: error.response?.data,
+        })
+      }
       toast.error(apiErrorMessage(error, t('common.somethingWentWrong')))
     } finally {
       setIsSubmitting(false)

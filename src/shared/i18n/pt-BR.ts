@@ -350,7 +350,7 @@ const ptBR = {
   },
   importExcel: {
     title: 'Importar perguntas do Excel',
-    description: 'Colunas: Pergunta | A | B | C | D | E | Correta',
+    description: 'Colunas: Pergunta | Imagem (opcional) | A | B | C | D | E | Correta',
     submit: 'Importar',
     processing: 'Processando…',
     rowsImported: '{imported} de {total} linhas importadas',

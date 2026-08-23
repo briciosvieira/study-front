@@ -352,7 +352,7 @@ const es: Dictionary = {
   },
   importExcel: {
     title: 'Importar preguntas desde Excel',
-    description: 'Columnas: Pergunta | A | B | C | D | E | Correta',
+    description: 'Columnas: Pergunta | Imagem (opcional) | A | B | C | D | E | Correta',
     submit: 'Importar',
     processing: 'Procesando…',
     rowsImported: '{imported} de {total} filas importadas',
