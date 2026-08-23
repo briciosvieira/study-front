@@ -88,6 +88,17 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
   const currentQuestion =
     state.status === 'in_progress' ? state.questions[state.currentIndex] : undefined
 
+  // Temporary diagnostic only, for confirming imageUrl actually reaches the
+  // browser (never logs a token/header) — safe to remove once the image
+  // pipeline is confirmed working end-to-end in production.
+  useEffect(() => {
+    if (!currentQuestion) return
+    console.log('[QUIZ IMAGE] question', {
+      questionId: currentQuestion.id,
+      imageUrl: currentQuestion.imageUrl,
+    })
+  }, [currentQuestion])
+
   // Registers the "entered this question" timestamp with the server the
   // first time it's ever viewed — the countdown for every other visit is
   // reconstructed from that persisted timestamp, never from a local clock.
