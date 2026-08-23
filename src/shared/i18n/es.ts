@@ -49,6 +49,13 @@ const es: Dictionary = {
     invalidCredentials: 'Credenciales inválidas',
     accountDeactivated: 'Cuenta desactivada. Contacta a un administrador.',
     aboutLink: 'Sobre esta plataforma',
+    sessionExpired: 'Tu sesión finalizó tras 2 horas de inactividad.',
+  },
+  appError: {
+    title: 'No se pudo cargar esta página.',
+    description: 'La aplicación puede haberse actualizado recientemente.',
+    retry: 'Intentar de nuevo',
+    goHome: 'Ir al inicio',
   },
   about: {
     title: 'Sobre StudyJA',
@@ -184,6 +191,8 @@ const es: Dictionary = {
     uploadPdf: 'Subir PDF',
     uploadVideo: 'Subir video',
     importExcel: 'Importar Excel',
+    downloadExcel: 'Descargar Excel',
+    downloadingExcel: 'Descargando...',
     newQuestion: 'Nueva pregunta',
     newPdfModule: 'Nuevo PDF',
     newVideoModule: 'Nuevo video',
@@ -305,6 +314,7 @@ const es: Dictionary = {
     toastCreateError: 'No se pudo crear la pregunta',
     toastUpdateError: 'No se pudo actualizar la pregunta',
     toastDeleteError: 'No se pudo eliminar la pregunta',
+    toastDownloadError: 'No se pudo descargar el Quiz.',
   },
   questionForm: {
     titleNew: 'Nueva pregunta',

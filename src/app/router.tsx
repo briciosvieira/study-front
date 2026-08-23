@@ -39,10 +39,12 @@ import { RequireAuth } from './RequireAuth'
 import { RequireReactivationAccess } from './RequireReactivationAccess'
 import { RequireRole } from './RequireRole'
 import { RootLayout } from './RootLayout'
+import { RouteErrorBoundary } from './RouteErrorBoundary'
 
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
+    errorElement: <RouteErrorBoundary />,
     children: [
       {
         element: <AuthLayout />,

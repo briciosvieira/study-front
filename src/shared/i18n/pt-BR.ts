@@ -47,6 +47,13 @@ const ptBR = {
     invalidCredentials: 'Credenciais inválidas',
     accountDeactivated: 'Conta desativada. Entre em contato com um administrador.',
     aboutLink: 'Sobre esta plataforma',
+    sessionExpired: 'Sua sessão foi encerrada após 2 horas de inatividade.',
+  },
+  appError: {
+    title: 'Não foi possível carregar esta página.',
+    description: 'A aplicação pode ter sido atualizada recentemente.',
+    retry: 'Tentar novamente',
+    goHome: 'Ir para o início',
   },
   about: {
     title: 'Sobre o StudyJA',
@@ -182,6 +189,8 @@ const ptBR = {
     uploadPdf: 'Enviar PDF',
     uploadVideo: 'Enviar vídeo',
     importExcel: 'Importar Excel',
+    downloadExcel: 'Baixar Excel',
+    downloadingExcel: 'Baixando...',
     newQuestion: 'Nova pergunta',
     newPdfModule: 'Novo PDF',
     newVideoModule: 'Novo vídeo',
@@ -303,6 +312,7 @@ const ptBR = {
     toastCreateError: 'Não foi possível criar a pergunta',
     toastUpdateError: 'Não foi possível atualizar a pergunta',
     toastDeleteError: 'Não foi possível excluir a pergunta',
+    toastDownloadError: 'Não foi possível baixar o Quiz.',
   },
   questionForm: {
     titleNew: 'Nova pergunta',

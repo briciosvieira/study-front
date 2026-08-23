@@ -49,6 +49,13 @@ const en: Dictionary = {
     invalidCredentials: 'Invalid credentials',
     accountDeactivated: 'Account deactivated. Contact an administrator.',
     aboutLink: 'About this platform',
+    sessionExpired: 'Your session was ended after 2 hours of inactivity.',
+  },
+  appError: {
+    title: 'This page could not be loaded.',
+    description: 'The application may have been recently updated.',
+    retry: 'Try again',
+    goHome: 'Go to home',
   },
   about: {
     title: 'About StudyJA',
@@ -184,6 +191,8 @@ const en: Dictionary = {
     uploadPdf: 'Upload PDF',
     uploadVideo: 'Upload video',
     importExcel: 'Import Excel',
+    downloadExcel: 'Download Excel',
+    downloadingExcel: 'Downloading...',
     newQuestion: 'New question',
     newPdfModule: 'New PDF',
     newVideoModule: 'New video',
@@ -305,6 +314,7 @@ const en: Dictionary = {
     toastCreateError: 'Could not create question',
     toastUpdateError: 'Could not update question',
     toastDeleteError: 'Could not delete question',
+    toastDownloadError: 'Could not download the quiz.',
   },
   questionForm: {
     titleNew: 'New question',

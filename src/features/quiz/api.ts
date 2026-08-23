@@ -47,6 +47,13 @@ export const quizImportApi = {
     api.get<ImportStatusResponse>(`/questions/import/${jobId}/status`).then((r) => r.data),
 }
 
+export const quizExportApi = {
+  download: (moduleId: string) =>
+    api
+      .get(`/modules/${moduleId}/questions/export`, { responseType: 'blob' })
+      .then((r) => r.data as Blob),
+}
+
 export const attemptsApi = {
   info: (moduleId: string) =>
     api.get<QuizInfo>(`/modules/${moduleId}/quiz/info`).then((r) => r.data),

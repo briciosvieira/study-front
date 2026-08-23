@@ -1,5 +1,6 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios'
 import { useAuthStore } from '@/features/auth/authStore'
+import { clearLastActivity } from '@/features/auth/sessionActivity'
 import type { ApiErrorBody } from '@/shared/types/api.types'
 
 interface Envelope<T> {
@@ -64,6 +65,7 @@ api.interceptors.response.use(
         return api(config)
       } catch {
         useAuthStore.getState().clearSession()
+        clearLastActivity()
         window.location.href = '/login'
       }
     }

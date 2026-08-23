@@ -1,10 +1,10 @@
-import { ArrowLeft, FileUp, HelpCircle, Plus, Upload } from 'lucide-react'
+import { ArrowLeft, Download, FileUp, HelpCircle, Plus, Upload } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ImportExcelModal } from '@/features/quiz/ImportExcelModal'
 import { QuestionForm } from '@/features/quiz/QuestionForm'
 import { QuestionList } from '@/features/quiz/QuestionList'
-import { useQuestions } from '@/features/quiz/useQuestions'
+import { useDownloadQuizExcel, useQuestions } from '@/features/quiz/useQuestions'
 import { PdfList } from '@/features/pdf/PdfList'
 import { PdfUploadForm } from '@/features/pdf/PdfUploadForm'
 import { usePdfItems } from '@/features/pdf/usePdfItems'
@@ -35,6 +35,7 @@ export function StaffModuleDetailPage({ canDelete }: { canDelete: boolean }) {
   const pdfQuery = usePdfItems(module?.type === 'PDF' ? moduleId : '')
   const videoQuery = useVideoItems(module?.type === 'VIDEO' ? moduleId : '')
   const questionsQuery = useQuestions(module?.type === 'QUIZ' ? moduleId : '')
+  const downloadQuizExcel = useDownloadQuizExcel()
 
   if (isLoadingModules) return <PageSpinner />
   if (!module) return <EmptyState title={t('modules.notFound')} />
@@ -77,6 +78,16 @@ export function StaffModuleDetailPage({ canDelete }: { canDelete: boolean }) {
                 <Button variant="secondary" onClick={() => setImportOpen(true)}>
                   <FileUp size={16} />
                   {t('moduleDetail.importExcel')}
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => downloadQuizExcel.mutate({ moduleId, moduleTitle: module.title })}
+                  disabled={downloadQuizExcel.isPending}
+                >
+                  <Download size={16} />
+                  {downloadQuizExcel.isPending
+                    ? t('moduleDetail.downloadingExcel')
+                    : t('moduleDetail.downloadExcel')}
                 </Button>
                 <Button onClick={() => setQuestionForm('new')}>
                   <Plus size={16} />

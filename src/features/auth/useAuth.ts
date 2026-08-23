@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { authApi, type LoginPayload } from './api'
 import { useAuthStore } from './authStore'
+import { clearLastActivity } from './sessionActivity'
 
 // Runs once at app startup: the httpOnly refresh cookie may still be valid
 // even though the in-memory access token was wiped by a page reload, so try
@@ -56,6 +57,7 @@ export function useLogout() {
     mutationFn: () => authApi.logout(),
     onSettled: () => {
       clearSession()
+      clearLastActivity()
       queryClient.clear()
       navigate('/login')
     },
