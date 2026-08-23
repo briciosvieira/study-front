@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
+import { useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { useLogin } from '@/features/auth/useAuth'
 import { apiErrorMessage } from '@/shared/api/axiosClient'
@@ -13,6 +15,25 @@ import { useTranslation } from '@/shared/i18n/LanguageProvider'
 export function LoginPage() {
   const { t } = useTranslation()
   const loginMutation = useLogin()
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  // The inactivity logout does a full browser navigation to
+  // /login?reason=inactive (no React state survives that reload), so the
+  // "why am I here" message is carried in the URL instead. Shown once, then
+  // the param is stripped so it doesn't reappear on a later re-render/back
+  // navigation to this same page.
+  useEffect(() => {
+    if (searchParams.get('reason') !== 'inactive') return
+    toast.message(t('auth.sessionExpired'))
+    setSearchParams(
+      (params) => {
+        params.delete('reason')
+        return params
+      },
+      { replace: true },
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const schema = useMemo(
     () =>

@@ -1,7 +1,6 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
-import { toast } from 'sonner'
-import { useTranslation } from '@/shared/i18n/LanguageProvider'
-import { useLogout } from './useAuth'
+import { logoutDueToInactivity } from './useAuth'
 import {
   LAST_ACTIVITY_STORAGE_KEY,
   getLastActivity,
@@ -20,11 +19,8 @@ const EXPIRY_CHECK_INTERVAL_MS = 30_000
 // through the existing logout flow once 2 real hours pass with no click,
 // keypress, touch, or scroll anywhere in the app, in any tab.
 export function SessionActivityWatcher() {
-  const { t } = useTranslation()
-  const logout = useLogout()
+  const queryClient = useQueryClient()
   const loggedOutRef = useRef(false)
-  const logoutRef = useRef(logout)
-  logoutRef.current = logout
 
   useEffect(() => {
     loggedOutRef.current = false
@@ -33,8 +29,7 @@ export function SessionActivityWatcher() {
       if (loggedOutRef.current) return true
       if (!isSessionExpiredByInactivity()) return false
       loggedOutRef.current = true
-      toast.message(t('auth.sessionExpired'))
-      logoutRef.current.mutate()
+      logoutDueToInactivity(queryClient)
       return true
     }
 
@@ -83,7 +78,7 @@ export function SessionActivityWatcher() {
       window.removeEventListener('storage', handleStorage)
       window.clearInterval(intervalId)
     }
-  }, [t])
+  }, [queryClient])
 
   return null
 }

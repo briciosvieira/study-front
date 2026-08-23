@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { authApi, type LoginPayload } from './api'
 import { useAuthStore } from './authStore'
@@ -62,6 +62,22 @@ export function useLogout() {
       navigate('/login')
     },
   })
+}
+
+// Used ONLY by the 2h-inactivity watcher — NOT the manual "Sair" button
+// (that stays on useLogout's normal SPA navigate). Inactivity logout forces
+// a full browser navigation instead: a background tab left open for hours
+// can carry stale React/axios/React Query state, and only a real document
+// reload reliably clears it and guarantees the very next login attempt
+// works on the first try. The /auth/logout call is best-effort and not
+// awaited so a slow/flaky connection never delays the redirect; local
+// session state is cleared synchronously either way.
+export function logoutDueToInactivity(queryClient: QueryClient): void {
+  authApi.logout().catch(() => {})
+  useAuthStore.getState().clearSession()
+  clearLastActivity()
+  queryClient.clear()
+  window.location.replace('/login?reason=inactive')
 }
 
 export function homeRouteForRole(role: string): string {
