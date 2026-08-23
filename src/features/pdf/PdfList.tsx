@@ -1,4 +1,5 @@
-import { FileText, Trash2 } from 'lucide-react'
+import { Download, FileText, Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { EmptyState } from '@/shared/components/EmptyState'
 import { OrderBadge } from '@/shared/components/OrderBadge'
@@ -6,7 +7,8 @@ import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import type { PdfItem } from '@/shared/types/api.types'
-import { useDeletePdf, useReorderPdf } from './usePdfItems'
+import { PdfEditDialog } from './PdfEditDialog'
+import { useDeletePdf, useDownloadPdf, useReorderPdf } from './usePdfItems'
 
 export function PdfList({
   moduleId,
@@ -22,6 +24,8 @@ export function PdfList({
   const { t } = useTranslation()
   const deletePdf = useDeletePdf(moduleId)
   const reorderPdf = useReorderPdf(moduleId)
+  const downloadPdf = useDownloadPdf()
+  const [editTarget, setEditTarget] = useState<PdfItem | null>(null)
 
   if (!items.length) {
     return <EmptyState title={t('pdf.empty')} icon={FileText} />
@@ -51,19 +55,48 @@ export function PdfList({
                 }}
               />
               {canDelete && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => deletePdf.mutate(item.id)}
-                  aria-label={t('common.delete')}
-                >
-                  <Trash2 size={16} className="text-danger" />
-                </Button>
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => downloadPdf.mutate(item.id)}
+                    disabled={downloadPdf.isPending}
+                    aria-label={t('pdf.download')}
+                  >
+                    <Download size={16} />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setEditTarget(item)}
+                    aria-label={t('pdf.edit')}
+                  >
+                    <Pencil size={16} />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => deletePdf.mutate(item.id)}
+                    aria-label={t('common.delete')}
+                  >
+                    <Trash2 size={16} className="text-danger" />
+                  </Button>
+                </>
               )}
             </div>
           )}
         </div>
       ))}
+
+      {editTarget && (
+        <PdfEditDialog
+          key={editTarget.id}
+          open={!!editTarget}
+          onOpenChange={(open) => !open && setEditTarget(null)}
+          moduleId={moduleId}
+          item={editTarget}
+        />
+      )}
     </div>
   )
 }

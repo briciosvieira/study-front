@@ -40,4 +40,37 @@ export const pdfApi = {
   remove: (id: string) => api.delete(`/pdf/${id}`),
   reorder: (id: string, orderLabel: string) =>
     api.patch<PdfItem>(`/pdf/${id}/reorder`, { orderLabel }).then((r) => r.data),
+
+  async update(
+    id: string,
+    payload: {
+      title?: string
+      description?: string
+      file?: File
+      onProgress?: (percent: number) => void
+    },
+  ) {
+    let fileKey: string | undefined
+    if (payload.file) {
+      const { data: presigned } = await api.post<PresignResponse>(`/pdf/${id}/presign-replace`, {
+        fileName: payload.file.name,
+        contentType: payload.file.type || 'application/pdf',
+      })
+      await axios.put(presigned.uploadUrl, payload.file, {
+        headers: { 'Content-Type': payload.file.type || 'application/pdf' },
+        onUploadProgress: (evt) => {
+          if (payload.onProgress && evt.total)
+            payload.onProgress(Math.round((evt.loaded / evt.total) * 100))
+        },
+      })
+      fileKey = presigned.key
+    }
+
+    return api
+      .patch<PdfItem>(`/pdf/${id}`, { title: payload.title, description: payload.description, fileKey })
+      .then((r) => r.data)
+  },
+
+  getDownloadUrl: (id: string) =>
+    api.get<{ downloadUrl: string }>(`/pdf/${id}/download`).then((r) => r.data.downloadUrl),
 }

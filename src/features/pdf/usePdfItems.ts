@@ -58,3 +58,39 @@ export function useReorderPdf(moduleId: string) {
     onError: (error) => toast.error(apiErrorMessage(error, t('pdf.toastReorderError'))),
   })
 }
+
+export function useUpdatePdf(moduleId: string) {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  return useMutation({
+    mutationFn: ({
+      id,
+      title,
+      description,
+      file,
+      onProgress,
+    }: {
+      id: string
+      title?: string
+      description?: string
+      file?: File
+      onProgress?: (percent: number) => void
+    }) => pdfApi.update(id, { title, description, file, onProgress }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: pdfKey(moduleId) })
+      toast.success(t('pdf.toastUpdated'))
+    },
+    onError: (error) => toast.error(apiErrorMessage(error, t('pdf.toastUpdateError'))),
+  })
+}
+
+export function useDownloadPdf() {
+  const { t } = useTranslation()
+  return useMutation({
+    mutationFn: (id: string) => pdfApi.getDownloadUrl(id),
+    onSuccess: (downloadUrl) => {
+      window.open(downloadUrl, '_blank', 'noopener,noreferrer')
+    },
+    onError: (error) => toast.error(apiErrorMessage(error, t('pdf.toastDownloadError'))),
+  })
+}

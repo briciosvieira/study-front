@@ -1,4 +1,5 @@
-import { Trash2, Video as VideoIcon } from 'lucide-react'
+import { Download, Pencil, Trash2, Video as VideoIcon } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { EmptyState } from '@/shared/components/EmptyState'
 import { OrderBadge } from '@/shared/components/OrderBadge'
@@ -6,7 +7,8 @@ import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import type { VideoItem } from '@/shared/types/api.types'
-import { useDeleteVideo, useReorderVideo } from './useVideoItems'
+import { VideoEditDialog } from './VideoEditDialog'
+import { useDeleteVideo, useDownloadVideo, useReorderVideo } from './useVideoItems'
 
 export function VideoList({
   moduleId,
@@ -22,6 +24,8 @@ export function VideoList({
   const { t } = useTranslation()
   const deleteVideo = useDeleteVideo(moduleId)
   const reorderVideo = useReorderVideo(moduleId)
+  const downloadVideo = useDownloadVideo()
+  const [editTarget, setEditTarget] = useState<VideoItem | null>(null)
 
   if (!items.length) {
     return <EmptyState title={t('video.empty')} icon={VideoIcon} />
@@ -51,19 +55,48 @@ export function VideoList({
                 }}
               />
               {canDelete && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => deleteVideo.mutate(item.id)}
-                  aria-label={t('common.delete')}
-                >
-                  <Trash2 size={16} className="text-danger" />
-                </Button>
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => downloadVideo.mutate(item.id)}
+                    disabled={downloadVideo.isPending}
+                    aria-label={t('video.download')}
+                  >
+                    <Download size={16} />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setEditTarget(item)}
+                    aria-label={t('video.edit')}
+                  >
+                    <Pencil size={16} />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => deleteVideo.mutate(item.id)}
+                    aria-label={t('common.delete')}
+                  >
+                    <Trash2 size={16} className="text-danger" />
+                  </Button>
+                </>
               )}
             </div>
           )}
         </div>
       ))}
+
+      {editTarget && (
+        <VideoEditDialog
+          key={editTarget.id}
+          open={!!editTarget}
+          onOpenChange={(open) => !open && setEditTarget(null)}
+          moduleId={moduleId}
+          item={editTarget}
+        />
+      )}
     </div>
   )
 }

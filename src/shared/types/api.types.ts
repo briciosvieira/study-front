@@ -95,8 +95,10 @@ export interface PdfItem {
   id: string
   moduleId: string
   title: string
+  description: string | null
   fileUrl: string
   fileKey: string
+  fileName: string
   sizeBytes: string | null
   orderLabel: string
   orderNum: number
@@ -107,8 +109,10 @@ export interface VideoItem {
   id: string
   moduleId: string
   title: string
+  description: string | null
   fileUrl: string
   fileKey: string | null
+  fileName: string | null
   durationSec: number | null
   orderLabel: string
   orderNum: number
