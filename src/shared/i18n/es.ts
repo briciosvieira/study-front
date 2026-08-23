@@ -385,6 +385,9 @@ const es: Dictionary = {
     toastFinishError: 'No se pudo finalizar el quiz',
     toastRetryError: 'No se pudo rehacer el quiz',
     toastResultError: 'No se pudo cargar el resultado',
+    imageAlt: 'Imagen de la pregunta {position}',
+    imageExpand: 'Ampliar imagen',
+    imageDialogTitle: 'Imagen de la pregunta',
   },
   quizResult: {
     title: 'Resultado del Quiz',

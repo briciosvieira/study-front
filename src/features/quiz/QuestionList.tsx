@@ -4,6 +4,7 @@ import { Button } from '@/shared/components/ui/button'
 import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import type { Question } from '@/shared/types/api.types'
 import { normalizeQuizDisplayText } from './normalizeQuizText'
+import { QuestionImage } from './QuestionImage'
 import { useDeleteQuestion } from './useQuestions'
 
 export function QuestionList({
@@ -53,6 +54,13 @@ export function QuestionList({
               )}
             </div>
           </div>
+          {question.imageUrl && (
+            <QuestionImage
+              src={question.imageUrl}
+              alt={t('quiz.imageAlt', { position: index + 1 })}
+              compact
+            />
+          )}
           <ul className="mt-2 space-y-1">
             {question.options.map((option) => (
               <li

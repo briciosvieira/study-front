@@ -130,6 +130,7 @@ export interface Question {
   id: string
   moduleId: string
   statement: string
+  imageUrl: string | null
   timeLimitSec: number
   order: number
   createdAt: string
@@ -151,6 +152,7 @@ export interface QuizInfo {
 export interface QuizAttemptQuestion {
   id: string
   statement: string
+  imageUrl: string | null
   timeLimitSec: number
   position: number
   options: Pick<QuestionOption, 'id' | 'letter' | 'text'>[]

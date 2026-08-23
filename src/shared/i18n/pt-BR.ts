@@ -383,6 +383,9 @@ const ptBR = {
     toastFinishError: 'Não foi possível finalizar o quiz',
     toastRetryError: 'Não foi possível refazer o quiz',
     toastResultError: 'Não foi possível carregar o resultado',
+    imageAlt: 'Imagem da questão {position}',
+    imageExpand: 'Ampliar imagem',
+    imageDialogTitle: 'Imagem da questão',
   },
   quizResult: {
     title: 'Resultado do Quiz',

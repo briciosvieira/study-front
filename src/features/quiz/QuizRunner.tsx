@@ -11,6 +11,7 @@ import { useTranslation } from '@/shared/i18n/LanguageProvider'
 import type { QuizAttemptState } from '@/shared/types/api.types'
 import { attemptsApi } from './api'
 import { normalizeQuizDisplayText } from './normalizeQuizText'
+import { QuestionImage } from './QuestionImage'
 import { quizReducer } from './quizReducer'
 import { QuizResult } from './QuizResult'
 import { useQuestionTimer } from './useQuizTimer'
@@ -236,6 +237,13 @@ export function QuizRunner({ moduleId }: { moduleId: string }) {
       <h2 className="mb-4 whitespace-pre-wrap text-lg font-medium text-foreground">
         {normalizeQuizDisplayText(currentQuestion.statement)}
       </h2>
+
+      {currentQuestion.imageUrl && (
+        <QuestionImage
+          src={currentQuestion.imageUrl}
+          alt={t('quiz.imageAlt', { position: state.currentIndex + 1 })}
+        />
+      )}
 
       <div className="flex flex-col gap-2">
         {currentQuestion.options.map((option) => {

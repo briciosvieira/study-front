@@ -385,6 +385,9 @@ const en: Dictionary = {
     toastFinishError: 'Could not finish the quiz',
     toastRetryError: 'Could not retry the quiz',
     toastResultError: 'Could not load the result',
+    imageAlt: 'Question {position} image',
+    imageExpand: 'Enlarge image',
+    imageDialogTitle: 'Question image',
   },
   quizResult: {
     title: 'Quiz Result',
